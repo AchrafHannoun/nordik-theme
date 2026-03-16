@@ -1,0 +1,552 @@
+{{ 'ensemble-quiz.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #ensemble-quiz-{{ section.id }} {
+    --quiz-section-bg: #FFFFFF;
+    --quiz-card-bg: #FFFFFF;
+    --quiz-card-border: #000000;
+    --quiz-card-hover-bg: #f5f5f5;
+    --quiz-card-selected-bg: #fdebed;
+    --quiz-text-color: #000000;
+    --quiz-muted-color: #222222;
+    --quiz-accent: #D71F29;
+    --quiz-btn-bg: #000000;
+    --quiz-btn-text: #FFFFFF;
+    --quiz-btn-hover-bg: #D71F29;
+    --quiz-error-bg: #fdebed;
+    --quiz-error-text: #D71F29;
+    --quiz-success-bg: #f4f4f4;
+    --quiz-success-text: #000000;
+    --quiz-radius: {{ section.settings.card_border_radius }}px;
+    --quiz-padding-top: {{ section.settings.section_padding_top }}px;
+    --quiz-padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  }
+</style>
+
+<div
+  id="ensemble-quiz-{{ section.id }}"
+  class="ensemble-quiz"
+  data-section-id="{{ section.id }}"
+  data-csv-url="{{ section.settings.csv_filename | file_url }}"
+  data-collection-handle="{{ section.settings.collection_handle | default: 'all' | escape }}"
+  data-n8n-webhook-url="{{ section.settings.n8n_webhook_url | escape }}"
+  data-show-building-question-when-single-option="{{ section.settings.show_building_question_when_single_option }}"
+  data-quiz-title="{{ section.settings.quiz_title | escape }}"
+  data-quiz-subtitle="{{ section.settings.quiz_subtitle | strip_html | escape }}"
+  data-result-heading="{{ section.settings.result_heading | escape }}"
+  data-email-form-heading="{{ section.settings.email_form_heading | escape }}"
+  data-email-success-message="{{ section.settings.email_success_message | escape }}"
+  data-email-error-message="{{ section.settings.email_error_message | escape }}"
+  data-add-to-cart-btn-text="{{ section.settings.add_to_cart_btn_text | escape }}"
+  data-send-pdf-btn-text="{{ section.settings.send_pdf_btn_text | escape }}"
+  data-restart-btn-text="{{ section.settings.restart_btn_text | escape }}"
+  data-back-btn-text="{{ section.settings.back_btn_text | escape }}"
+  data-loading-text="{{ section.settings.loading_text | escape }}"
+  data-no-match-text="{{ section.settings.no_match_text | escape }}"
+  data-multiple-match-text="{{ section.settings.multiple_match_text | escape }}"
+  data-no-products-text="{{ section.settings.no_products_text | escape }}"
+  data-unresolved-variant-text="{{ section.settings.unresolved_variant_text | escape }}"
+  data-add-to-cart-error-text="{{ section.settings.add_to_cart_error_text | escape }}"
+  data-required-field-error-text="{{ section.settings.required_field_error_text | escape }}"
+  data-label-building="{{ section.settings.label_building | escape }}"
+  data-label-pipes="{{ section.settings.label_pipes_installed | escape }}"
+  data-label-insulation="{{ section.settings.label_insulation | escape }}"
+  data-label-diameter="{{ section.settings.label_diameter | escape }}"
+  data-label-surface-9="{{ section.settings.label_surface_9 | escape }}"
+  data-label-surface-12="{{ section.settings.label_surface_12 | escape }}"
+  data-label-circuits="{{ section.settings.label_circuits | escape }}"
+  data-label-energy="{{ section.settings.label_energy | escape }}"
+  data-label-know-boiler="{{ section.settings.label_know_boiler | escape }}"
+  data-label-boiler-model="{{ section.settings.label_boiler_model | escape }}"
+  data-label-btu-range="{{ section.settings.label_btu_range | escape }}"
+  data-label-fitting="{{ section.settings.label_fitting | escape }}"
+  data-label-first-name="{{ section.settings.label_first_name | escape }}"
+  data-label-last-name="{{ section.settings.label_last_name | escape }}"
+  data-label-email="{{ section.settings.label_email | escape }}"
+  data-placeholder-first-name="{{ section.settings.placeholder_first_name | escape }}"
+  data-placeholder-last-name="{{ section.settings.placeholder_last_name | escape }}"
+  data-placeholder-email="{{ section.settings.placeholder_email | escape }}"
+  data-options-building="{{ section.settings.options_building | escape }}"
+  data-options-pipes="{{ section.settings.options_pipes | escape }}"
+  data-options-insulation="{{ section.settings.options_insulation | escape }}"
+  data-options-diameter="{{ section.settings.options_diameter | escape }}"
+  data-options-circuits="{{ section.settings.options_circuits | escape }}"
+  data-options-energy="{{ section.settings.options_energy | escape }}"
+  data-options-know-boiler="{{ section.settings.options_know_boiler | escape }}"
+  data-options-fitting="{{ section.settings.options_fitting | escape }}"
+  data-options-surface-9="{{ section.settings.options_surface_9 | escape }}"
+  data-options-surface-12="{{ section.settings.options_surface_12 | escape }}"
+  data-options-boiler-240="{{ section.settings.options_boiler_240 | escape }}"
+  data-options-boiler-600="{{ section.settings.options_boiler_600 | escape }}"
+  data-options-boiler-gaz-standard="{{ section.settings.options_boiler_gaz_standard | escape }}"
+  data-options-boiler-gaz-combi="{{ section.settings.options_boiler_gaz_combi | escape }}"
+  data-options-btu-240="{{ section.settings.options_btu_240 | escape }}"
+  data-options-btu-600="{{ section.settings.options_btu_600 | escape }}"
+  data-options-btu-gaz-standard="{{ section.settings.options_btu_gaz_standard | escape }}"
+  data-options-btu-gaz-combi="{{ section.settings.options_btu_gaz_combi | escape }}"
+>
+  <div class="ensemble-quiz__inner page-width">
+    <header class="ensemble-quiz__header">
+      {% if section.settings.quiz_title != blank %}
+        <h2 class="ensemble-quiz__title">{{ section.settings.quiz_title }}</h2>
+      {% endif %}
+      {% if section.settings.quiz_subtitle != blank %}
+        <div class="ensemble-quiz__subtitle rte">{{ section.settings.quiz_subtitle }}</div>
+      {% endif %}
+    </header>
+
+    <div id="ensemble-quiz-error-{{ section.id }}" class="ensemble-quiz__error" hidden></div>
+    <div id="ensemble-quiz-app-{{ section.id }}" class="ensemble-quiz__app"></div>
+  </div>
+
+  <script id="ensemble-quiz-sku-variant-map-{{ section.id }}" type="application/json">
+    {
+      {%- assign products_for_map = collections[section.settings.collection_handle].products -%}
+      {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
+        {%- assign products_for_map = collections['all'].products -%}
+      {%- endif -%}
+
+      {%- assign first_item = true -%}
+      {%- for product in products_for_map -%}
+        {%- for variant in product.variants -%}
+          {%- if variant.sku != blank -%}
+            {%- unless first_item -%},{%- endunless -%}
+            "{{ variant.sku | escape }}": {
+              "variantId": {{ variant.id }},
+              "title": "{{ product.title | escape }}",
+              "productUrl": "{{ product.url | within: collection | default: product.url }}",
+              {%- assign img_url = '' -%}
+              {%- if variant.image -%}
+                {%- assign img_url = variant.image | image_url: width: 240 -%}
+              {%- elsif product.featured_image -%}
+                {%- assign img_url = product.featured_image | image_url: width: 240 -%}
+              {%- endif -%}
+              "imageUrl": "{{ img_url | escape }}"
+            }
+            {%- assign first_item = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    }
+  </script>
+</div>
+
+<script src="{{ 'ensemble-quiz.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Ensemble Radiant Quiz",
+  "tag": "section",
+  "class": "shopify-section-ensemble-quiz",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "quiz_title",
+      "label": "Quiz title",
+      "default": "Trouvez votre ensemble radiant"
+    },
+    {
+      "type": "richtext",
+      "id": "quiz_subtitle",
+      "label": "Quiz subtitle",
+      "default": "<p>Répondez aux questions pour recevoir votre ensemble recommandé.</p>"
+    },
+    {
+      "type": "url",
+      "id": "n8n_webhook_url",
+      "label": "n8n webhook URL"
+    },
+    {
+      "type": "text",
+      "id": "csv_filename",
+      "label": "CSV filename (Shopify Files)",
+      "default": "Ensemble.csv",
+      "info": "Upload the file under Content > Files. This section uses {{ csv_filename | file_url }}."
+    },
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection handle for SKU map",
+      "default": "all"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_building_question_when_single_option",
+      "label": "Show building question even with one option",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "result_heading",
+      "label": "Result heading",
+      "default": "Votre ensemble recommande"
+    },
+    {
+      "type": "text",
+      "id": "email_form_heading",
+      "label": "Email form heading",
+      "default": "Recevez votre PDF personnalise"
+    },
+    {
+      "type": "text",
+      "id": "email_success_message",
+      "label": "Email success message",
+      "default": "Votre PDF a ete envoye."
+    },
+    {
+      "type": "text",
+      "id": "email_error_message",
+      "label": "Email error message",
+      "default": "Impossible d'envoyer le formulaire pour le moment."
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_btn_text",
+      "label": "Add all to cart button text",
+      "default": "Ajouter tout au panier"
+    },
+    {
+      "type": "text",
+      "id": "send_pdf_btn_text",
+      "label": "Send PDF button text",
+      "default": "Envoyer mon PDF"
+    },
+    {
+      "type": "text",
+      "id": "restart_btn_text",
+      "label": "Restart button text",
+      "default": "Recommencer"
+    },
+    {
+      "type": "text",
+      "id": "back_btn_text",
+      "label": "Back button text",
+      "default": "Retour"
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "Loading text",
+      "default": "Chargement..."
+    },
+    {
+      "type": "text",
+      "id": "no_match_text",
+      "label": "No matching row message",
+      "default": "Aucun ensemble ne correspond a ces reponses."
+    },
+    {
+      "type": "text",
+      "id": "multiple_match_text",
+      "label": "Multiple matching rows message",
+      "default": "Plusieurs ensembles correspondent. Veuillez contacter notre equipe."
+    },
+    {
+      "type": "text",
+      "id": "no_products_text",
+      "label": "No products message",
+      "default": "Aucun produit n'a ete trouve pour cette configuration."
+    },
+    {
+      "type": "text",
+      "id": "unresolved_variant_text",
+      "label": "Unresolved variant message",
+      "default": "Certaines references n'ont pas ete associees a un variant Shopify."
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_error_text",
+      "label": "Add to cart error message",
+      "default": "Impossible d'ajouter les produits au panier."
+    },
+    {
+      "type": "text",
+      "id": "required_field_error_text",
+      "label": "Required field error",
+      "default": "Veuillez remplir ce champ."
+    },
+    {
+      "type": "header",
+      "content": "Question labels"
+    },
+    {
+      "type": "text",
+      "id": "label_building",
+      "label": "Building question",
+      "default": "Type de batiment"
+    },
+    {
+      "type": "text",
+      "id": "label_pipes_installed",
+      "label": "Pipes installed question",
+      "default": "Les tuyaux sont-ils deja installes?"
+    },
+    {
+      "type": "text",
+      "id": "label_insulation",
+      "label": "Insulation question",
+      "default": "Type d'isolation"
+    },
+    {
+      "type": "text",
+      "id": "label_diameter",
+      "label": "Diameter question",
+      "default": "Diametre des tuyaux"
+    },
+    {
+      "type": "text",
+      "id": "label_surface_9",
+      "label": "Surface 9 inches question",
+      "default": "Superficie (9 pouces)"
+    },
+    {
+      "type": "text",
+      "id": "label_surface_12",
+      "label": "Surface 12 inches question",
+      "default": "Superficie (12 pouces)"
+    },
+    {
+      "type": "text",
+      "id": "label_circuits",
+      "label": "Circuits question",
+      "default": "Nombre de circuits deja faits"
+    },
+    {
+      "type": "text",
+      "id": "label_energy",
+      "label": "Energy question",
+      "default": "Energie de la chaudiere"
+    },
+    {
+      "type": "text",
+      "id": "label_know_boiler",
+      "label": "Know boiler question",
+      "default": "Savez-vous quelle chaudiere vous avez besoin?"
+    },
+    {
+      "type": "text",
+      "id": "label_boiler_model",
+      "label": "Boiler model question",
+      "default": "Selectionnez le modele de chaudiere"
+    },
+    {
+      "type": "text",
+      "id": "label_btu_range",
+      "label": "BTU range question",
+      "default": "Selectionnez votre plage BTU"
+    },
+    {
+      "type": "text",
+      "id": "label_fitting",
+      "label": "Fitting question",
+      "default": "Type de fitting de cuivre"
+    },
+    {
+      "type": "header",
+      "content": "Form labels"
+    },
+    {
+      "type": "text",
+      "id": "label_first_name",
+      "label": "First name label",
+      "default": "Prenom"
+    },
+    {
+      "type": "text",
+      "id": "label_last_name",
+      "label": "Last name label",
+      "default": "Nom"
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email label",
+      "default": "Courriel"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_first_name",
+      "label": "First name placeholder",
+      "default": "Votre prenom"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_last_name",
+      "label": "Last name placeholder",
+      "default": "Votre nom"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Email placeholder",
+      "default": "votre@courriel.com"
+    },
+    {
+      "type": "header",
+      "content": "Option lists (one per line, format value|label)"
+    },
+    {
+      "type": "textarea",
+      "id": "options_building",
+      "label": "Building options",
+      "default": "Garage|Garage"
+    },
+    {
+      "type": "textarea",
+      "id": "options_pipes",
+      "label": "Pipes options",
+      "default": "Oui|Oui\nNon|Non"
+    },
+    {
+      "type": "textarea",
+      "id": "options_insulation",
+      "label": "Insulation options",
+      "default": "Treillis metallique|Treillis metallique\nPolystyrene avec systeme de retenue (style Isorad)|Polystyrene avec systeme de retenue (style Isorad)"
+    },
+    {
+      "type": "textarea",
+      "id": "options_diameter",
+      "label": "Diameter options",
+      "default": "9 pouces|9 pouces\n12 pouces|12 pouces"
+    },
+    {
+      "type": "textarea",
+      "id": "options_surface_9",
+      "label": "Surface options for 9 inches"
+    },
+    {
+      "type": "textarea",
+      "id": "options_surface_12",
+      "label": "Surface options for 12 inches"
+    },
+    {
+      "type": "textarea",
+      "id": "options_circuits",
+      "label": "Circuits options",
+      "default": "1|1\n2|2\n3|3\n4|4\n5|5\n6|6\n7|7\n8|8\n9|9\n10|10\n11|11\n12|12"
+    },
+    {
+      "type": "textarea",
+      "id": "options_energy",
+      "label": "Energy options",
+      "default": "Électrique 240V|Électrique 240V\nÉlectrique 600V|Électrique 600V\nGaz modèle Standard|Gaz modèle Standard\nGaz modèle Combi|Gaz modèle Combi"
+    },
+    {
+      "type": "textarea",
+      "id": "options_know_boiler",
+      "label": "Know boiler options",
+      "default": "Oui|Oui\nNon|Non"
+    },
+    {
+      "type": "textarea",
+      "id": "options_boiler_240",
+      "label": "Boiler model options for electric 240V"
+    },
+    {
+      "type": "textarea",
+      "id": "options_boiler_600",
+      "label": "Boiler model options for electric 600V"
+    },
+    {
+      "type": "textarea",
+      "id": "options_boiler_gaz_standard",
+      "label": "Boiler model options for gas standard"
+    },
+    {
+      "type": "textarea",
+      "id": "options_boiler_gaz_combi",
+      "label": "Boiler model options for gas combi"
+    },
+    {
+      "type": "textarea",
+      "id": "options_btu_240",
+      "label": "BTU options for electric 240V"
+    },
+    {
+      "type": "textarea",
+      "id": "options_btu_600",
+      "label": "BTU options for electric 600V"
+    },
+    {
+      "type": "textarea",
+      "id": "options_btu_gaz_standard",
+      "label": "BTU options for gas standard"
+    },
+    {
+      "type": "textarea",
+      "id": "options_btu_gaz_combi",
+      "label": "BTU options for gas combi"
+    },
+    {
+      "type": "textarea",
+      "id": "options_fitting",
+      "label": "Fitting options",
+      "default": "Soudé|Soudé\nPress Fit|Press Fit"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "Default"
+        },
+        {
+          "value": "1",
+          "label": "Scheme 1"
+        },
+        {
+          "value": "2",
+          "label": "Scheme 2"
+        },
+        {
+          "value": "3",
+          "label": "Scheme 3"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ensemble Radiant Quiz"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,570 @@
+<style>
+/* ===== Hard-coded theme: black/white with #D71F29 accent ===== */
+:root { --accent: #D71F29; }
+
+.kit-builder { 
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol", sans-serif;
+  color: #fff;
+  max-width: 980px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background:
+    radial-gradient(1200px 600px at 50% -20%, rgba(215,31,41,.25), transparent 60%),
+    linear-gradient(180deg, #000, #000);
+  border-radius: 28px;
+  position: relative;
+  box-shadow:
+    0 0 0 2px rgba(215,31,41,.35),
+    0 24px 80px rgba(0,0,0,.85),
+    inset 0 0 50px rgba(255,255,255,.05);
+}
+
+/* Card inside container */
+.kit-builder-step {
+  background: rgba(0,0,0,.66);
+  border: 1px solid rgba(215,31,41,.55);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow:
+    0 0 40px rgba(215,31,41,.25) inset,
+    0 12px 40px rgba(0,0,0,.6);
+}
+
+/* Title like the image header */
+.kit-builder .kb-title {
+  font-size: clamp(1.8rem, 3.8vw, 3.2rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 1.2rem;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(215,31,41,.25);
+}
+
+/* Question block (icon + pill) */
+.kb-question {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.kb-icon {
+  width: 72px; height: 72px; border-radius: 18px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(215,31,41,.7);
+  box-shadow: 0 0 24px rgba(215,31,41,.35), inset 0 0 16px rgba(215,31,41,.18);
+  background: rgba(255,255,255,.02);
+}
+
+.kb-icon svg { width: 42px; height: 42px; stroke: var(--accent); fill: none; stroke-width: 2.2; }
+
+.kb-prompt {
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 22px;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  box-shadow: 0 0 0 2px rgba(215,31,41,.22), inset 0 0 22px rgba(255,255,255,.06);
+}
+
+.kb-label {
+  font-weight: 800;
+  font-size: clamp(1.05rem, 1.2vw, 1.25rem);
+  line-height: 1.35;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 .75rem;
+  color: #fff;
+}
+
+/* Select */
+.kit-builder select {
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  background: #000;
+  color: #fff;
+  border: 1px solid rgba(215,31,41,.6);
+  border-radius: 14px;
+  padding: 0.95rem 1.2rem;
+  font-size: 1.05rem;
+  letter-spacing: .02em;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%23D71F29' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  background-size: 1.2em;
+  padding-right: 2.6rem;
+  text-align: center;
+  text-align-last: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,.6), inset 0 0 16px rgba(215,31,41,.12);
+}
+.kit-builder select:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(215,31,41,.35);
+}
+option { text-align: center; }
+
+/* Subtext */
+.kit-subtext {
+  color: #fff;
+  opacity: .8;
+  text-align: center;
+  font-size: .95rem;
+}
+
+/* Buttons */
+.kit-builder .kit-builder-button {
+  display: inline-block;
+  padding: 1.05rem 2.2rem;
+  border-radius: 48px;
+  border: 1px solid var(--accent);
+  background: linear-gradient(180deg, #D71F29 0%, #a9151d 100%);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 3px rgba(215,31,41,.18),
+    0 14px 40px rgba(215,31,41,.45),
+    inset 0 0 22px rgba(255,255,255,.14);
+  transition: transform .06s ease, box-shadow .15s ease, filter .15s ease;
+  text-decoration: none;
+}
+.kit-builder .kit-builder-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 4px rgba(215,31,41,.25),
+    0 18px 50px rgba(215,31,41,.5),
+    inset 0 0 26px rgba(255,255,255,.18);
+}
+.kit-builder .kit-builder-button[disabled]{ opacity:.6; cursor:not-allowed; }
+
+/* Error */
+.kit-builder-error {
+  display:none;
+  background: rgba(215,31,41,.15);
+  color: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  font-weight: 700;
+  padding: .8rem 1rem;
+  text-align: center;
+}
+
+/* Results */
+#kit-builder-results-content-{{ section.id }} {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(215,31,41,.45);
+  box-shadow: inset 0 0 30px rgba(215,31,41,.14);
+}
+#kit-builder-results-content-{{ section.id }} h3,
+#kit-builder-results-content-{{ section.id }} h4 {
+  margin: 0 0 .85rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.kit-builder-result-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 1rem; grid-template-columns: 1fr;
+}
+.kit-builder-result-item {
+  display: grid; grid-template-columns: 96px 1fr; gap: .9rem;
+  background: #000;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: .9rem;
+}
+.kit-builder-item-image,
+.kit-builder-item-image-placeholder {
+  width: 96px; height: 96px; object-fit: cover; border-radius: 12px; background: #000; border: 1px solid rgba(215,31,41,.5);
+}
+.kit-builder-item-image-placeholder { display:grid; place-items:center; color:#fff; opacity:.6; font-size:.8rem; }
+.kit-builder-item-title { color: #fff; font-weight: 700; text-decoration: none; }
+.kit-builder-item-title:hover { color: var(--accent); text-decoration: underline; }
+.kit-builder-item-quantity { color: var(--accent); font-weight: 700; }
+
+.kit-builder-no-results-text {
+  padding: 1rem; text-align: center; background: #000; border: 1px solid rgba(215,31,41,.45); border-radius: 14px; font-style: italic; color:#fff;
+}
+
+.kit-builder-actions { display:flex; gap:.75rem; justify-content:center; }
+
+@media (max-width: 768px) {
+  .kit-builder { margin: 1rem auto; padding: 1.25rem 1rem; }
+  .kit-builder-step { padding: 1.5rem 1rem; }
+  .kb-question { grid-template-columns: 56px 1fr; }
+  .kb-icon { width:56px; height:56px; border-radius:14px; }
+  .kb-icon svg { width:34px; height:34px; }
+  .kit-builder select { max-width: 100%; font-size: 1rem; }
+  .kit-builder .kit-builder-button { width: 100%; font-size: 1rem; }
+}
+</style>
+
+<div
+  id="kit-builder-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-csv-url="{{ section.settings.csv_filename | file_url }}"
+  data-placeholder-text="{{ section.settings.placeholder_text | escape }}"
+  data-single-instance-skus="{{ section.settings.single_instance_skus | escape }}"
+  data-results-image-width="{{ section.settings.results_image_width }}"
+  data-results-columns="{{ section.settings.results_columns }}"
+  data-open-links-new-tab="{{ section.settings.open_links_new_tab }}"
+  class="kit-builder"
+>
+  <div id="kit-builder-error-{{ section.id }}" class="kit-builder-error"></div>
+
+  <div class="kit-builder-step" id="kit-builder-step-unit-type-{{ section.id }}">
+    <h2 class="kb-title">{{ section.settings.title_select | default: 'CALCULATOR' }}</h2>
+
+    <!-- Q1 -->
+    <div class="kb-question">
+      <div class="kb-icon" aria-hidden="true">
+        <!-- house -->
+        <svg viewBox="0 0 24 24"><path d="M4 11.5l8-6 8 6M6 10.5V20h5v-5h2v5h5v-9.5"/></svg>
+      </div>
+      <div class="kb-prompt">
+        <div class="kb-label" id="label-q1-{{ section.id }}">{{ section.settings.q1_label | default: 'Question 1' }}</div>
+        <select id="q1-{{ section.id }}" class="kit-builder-select"></select>
+        {% if section.settings.q1_subtext != blank %}
+          <div class="kit-subtext">{{ section.settings.q1_subtext }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="kb-question">
+      <div class="kb-icon" aria-hidden="true">
+        <!-- gauge -->
+        <svg viewBox="0 0 24 24"><path d="M4 14a8 8 0 1 1 16 0"/><path d="M12 12l4-4"/><circle cx="12" cy="14" r="1.6" fill="#D71F29" stroke="none"/></svg>
+      </div>
+      <div class="kb-prompt">
+        <div class="kb-label" id="label-q2-{{ section.id }}">{{ section.settings.q2_label | default: 'Question 2' }}</div>
+        <select id="q2-{{ section.id }}" class="kit-builder-select"></select>
+        {% if section.settings.q2_subtext != blank %}
+          <div class="kit-subtext">{{ section.settings.q2_subtext }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="kb-question">
+      <div class="kb-icon" aria-hidden="true">
+        <!-- workbench -->
+        <svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="4" rx="1"/><path d="M6 13v6M18 13v6M8 9V6h4v3"/></svg>
+      </div>
+      <div class="kb-prompt">
+        <div class="kb-label" id="label-q3-{{ section.id }}">{{ section.settings.q3_label | default: 'Question 3' }}</div>
+        <select id="q3-{{ section.id }}" class="kit-builder-select"></select>
+        {% if section.settings.q3_subtext != blank %}
+          <div class="kit-subtext">{{ section.settings.q3_subtext }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="kit-builder-actions">
+      <button type="button" id="kit-builder-next-to-details-{{ section.id }}" class="kit-builder-button">
+        {{ section.settings.btn_show_results | default: 'Get Result' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="kit-builder-step" id="kit-builder-step-results-{{ section.id }}" style="display:none;">
+    <h3 class="kb-label" style="text-transform:none; letter-spacing:.02em; text-align:left;">{{ section.settings.title_results }}</h3>
+    <div id="kit-builder-results-content-{{ section.id }}"></div>
+  </div>
+
+  {%- assign collection = collections[section.settings.collection_handle] -%}
+  <script id="kit-builder-sku-variant-map-{{ section.id }}" type="application/json">
+  {
+    {%- assign products_for_map = collection.products -%}
+    {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
+      {%- assign products_for_map = collections['all'].products -%}
+    {%- endif -%}
+    {%- assign first_item = true -%}
+    {%- for product in products_for_map -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.sku != blank -%}
+          {%- unless first_item -%},{%- endunless -%}
+          "{{ variant.sku | escape }}": {
+            "variantId": {{ variant.id }},
+            "title": "{{ product.title | escape }}",
+            "productUrl": "{{ product.url | within: collection | default: product.url }}",
+            {%- assign img_url = '' -%}
+            {%- if variant.image -%}
+              {%- assign img_url = variant.image | image_url: width: section.settings.results_image_width -%}
+            {%- elsif product.featured_image -%}
+              {%- assign img_url = product.featured_image | image_url: width: section.settings.results_image_width -%}
+            {%- endif -%}
+            "imageUrl": "{{ img_url | escape }}"
+          }
+          {%- assign first_item = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  }
+  </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("kit-builder-{{ section.id }}");
+    if (!container) return;
+
+    const sectionId = container.dataset.sectionId;
+    const errorDisplay = document.getElementById(`kit-builder-error-${sectionId}`);
+    const stepType = document.getElementById(`kit-builder-step-unit-type-${sectionId}`);
+    const stepResults = document.getElementById(`kit-builder-step-results-${sectionId}`);
+    const resultsContent = document.getElementById(`kit-builder-results-content-${sectionId}`);
+    const nextBtn = document.getElementById(`kit-builder-next-to-details-${sectionId}`);
+
+    const q1 = document.getElementById(`q1-${sectionId}`);
+    const q2 = document.getElementById(`q2-${sectionId}`);
+    const q3 = document.getElementById(`q3-${sectionId}`);
+    const lq1 = document.getElementById(`label-q1-${sectionId}`);
+    const lq2 = document.getElementById(`label-q2-${sectionId}`);
+    const lq3 = document.getElementById(`label-q3-${sectionId}`);
+
+    const mapScript = document.getElementById(`kit-builder-sku-variant-map-${sectionId}`);
+
+    const settings = {
+      csvUrl: container.dataset.csvUrl,
+      placeholderText: container.dataset.placeholderText || "Select…",
+      singleInstanceSkus: (container.dataset.singleInstanceSkus || "").split(",").map(s => s.trim()).filter(Boolean),
+      resultCols: parseInt(container.dataset.resultsColumns || '1', 10),
+      openLinksNewTab: container.dataset.openLinksNewTab === 'true'
+    };
+
+    const CSV = { headers: [], rows: [] };
+    let skuMap = {};
+
+    function err(msg) {
+      if (errorDisplay) { errorDisplay.textContent = msg; errorDisplay.style.display = "block"; }
+      console.error("KitBuilder:", msg);
+    }
+    function clearErr() { if (errorDisplay) { errorDisplay.textContent = ""; errorDisplay.style.display = "none"; } }
+
+    function optReset(select) {
+      const cur = select.value;
+      select.innerHTML = "";
+      const ph = document.createElement("option");
+      ph.value = ""; ph.textContent = settings.placeholderText;
+      select.appendChild(ph);
+      return cur;
+    }
+    function optFill(select, list) {
+      const cur = optReset(select);
+      [...new Set(list)].filter(Boolean).sort((a,b)=>String(a).localeCompare(String(b), undefined, {numeric:true}))
+        .forEach(v => { const o=document.createElement("option"); o.value=String(v); o.textContent=String(v); select.appendChild(o); });
+      select.value = list.includes(cur) ? cur : "";
+    }
+
+    function parseCsv(text) {
+      const rows = [];
+      let field = "", row = [], inside = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') {
+          if (inside && text[i + 1] === '"') { field += '"'; i++; }
+          else { inside = !inside; }
+        } else if (c === ',' && !inside) {
+          row.push(field); field = "";
+        } else if ((c === '\n' || c === '\r') && !inside) {
+          if (c === '\r' && text[i + 1] === '\n') i++;
+          row.push(field); field = "";
+          const nonEmpty = row.some(v => String(v).trim() !== "");
+          if (nonEmpty) rows.push(row.map(v => String(v).trim()));
+          row = [];
+        } else {
+          field += c;
+        }
+      }
+      if (field.length || row.length) {
+        row.push(field);
+        const nonEmpty = row.some(v => String(v).trim() !== "");
+        if (nonEmpty) rows.push(row.map(v => String(v).trim()));
+      }
+      return rows;
+    }
+
+    async function loadCsv() {
+      if (!settings.csvUrl || settings.csvUrl.endsWith("/")) { err("CSV introuvable ou non configuré."); return false; }
+      try {
+        const res = await fetch(settings.csvUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(res.statusText);
+        const text = (await res.text());
+        const rows = parseCsv(text);
+
+        if (rows.length < 2) throw new Error("CSV vide.");
+        CSV.headers = rows[0].map(h => String(h).replace(/^\uFEFF/, ""));
+        CSV.rows = rows.slice(1).filter(r => r.length >= CSV.headers.length - 1);
+        CSV.rows = CSV.rows.map(r => { const copy = r.slice(); while (copy.length < CSV.headers.length) copy.push(""); return copy; });
+        return true;
+      } catch (e) { err("Chargement CSV: " + e.message); return false; }
+    }
+
+    function loadSkuMap() {
+      if (!mapScript || !mapScript.textContent) { err("Map SKU→variant manquante."); return false; }
+      try { skuMap = JSON.parse(mapScript.textContent); return true; }
+      catch (e) { err("Map SKU→variant invalide: " + e.message); return false; }
+    }
+
+    function setupLabels() {
+      const qHeaders = CSV.headers.slice(0,3);
+      if (lq1 && (!lq1.textContent || lq1.textContent === '…')) lq1.textContent = qHeaders[0] || "Question 1";
+      if (lq2 && (!lq2.textContent || lq2.textContent === '…')) lq2.textContent = qHeaders[1] || "Question 2";
+      if (lq3 && (!lq3.textContent || lq3.textContent === '…')) lq3.textContent = qHeaders[2] || "Question 3";
+    }
+
+    function handleQ1() {
+      const h = CSV.headers; const h1 = 0, h2 = 1; const v1 = q1.value;
+      const opts2 = CSV.rows.filter(r => !v1 || r[h1]===v1).map(r => r[h2]);
+      optFill(q2, opts2); optFill(q3, []);
+    }
+    function handleQ2() {
+      const h = CSV.headers; const h1 = 0, h2 = 1, h3 = 2; const v1 = q1.value, v2 = q2.value;
+      const opts3 = CSV.rows.filter(r => (!v1 || r[h1]===v1) && (!v2 || r[h2]===v2)).map(r => r[h3]);
+      optFill(q3, opts3);
+    }
+
+    function renderResults() {
+      clearErr(); resultsContent.innerHTML = "";
+      const h = CSV.headers; if (h.length < 3) { err("Le CSV doit contenir au moins 3 colonnes pour les questions."); return; }
+      const h1 = 0, h2 = 1, h3 = 2;
+      if (!q1.value || !q2.value || !q3.value) { err("Sélectionne les 3 options."); return; }
+
+      const row = CSV.rows.find(r => r[h1]===q1.value && r[h2]===q2.value && r[h3]===q3.value);
+      if (!row) { resultsContent.innerHTML = `<p class="kit-builder-no-results-text">{{ section.settings.text_no_match | escape }}</p>`; stepType.style.display="block"; stepResults.style.display="none"; return; }
+
+      const lower = h.map(x => String(x).toLowerCase());
+      const items = [];
+      for (let i=0;i<lower.length;i++) {
+        if (lower[i].startsWith("sku")) {
+          const suffix = lower[i].slice(3);
+          const qtyIdx = lower.findIndex(col => col.replace(/[_-]/g,"") === ("qty"+suffix).replace(/[_-]/g,""));
+          const skuVal = (row[i]||"").trim(); if (!skuVal) continue;
+          if (qtyIdx === -1) continue;
+          const qty = parseInt(row[qtyIdx], 10); if (!Number.isFinite(qty) || qty <= 0) continue;
+          const prod = skuMap[skuVal] || {};
+          items.push({ sku: skuVal, qty, variantId: prod.variantId || null, title: prod.title || skuVal, url: prod.productUrl || "#", imageUrl: prod.imageUrl || "" });
+        }
+      }
+
+      const singleSet = new Set(settings.singleInstanceSkus);
+      const uniqueSingles = new Map(); const normal = [];
+      items.forEach(it => { if (singleSet.has(it.sku)) { if (!uniqueSingles.has(it.sku)) uniqueSingles.set(it.sku, it); } else { normal.push(it); } });
+
+      const targetCols = Math.max(1, Math.min(4, settings.resultCols));
+      resultsContent.parentElement.style.setProperty('--_kit-results-cols', targetCols === 1 ? '1fr' : `repeat(${targetCols}, minmax(0,1fr))`);
+
+      const allForPermalink = [...normal, ...Array.from(uniqueSingles.values())].filter(x => x.variantId && x.qty > 0).reverse();
+      const cartPermalink = allForPermalink.length ? `/cart/${allForPermalink.map(x => `${x.variantId}:${x.qty}`).join(',')}?storefront=true` : null;
+      const tgt = settings.openLinksNewTab ? " target=\"_blank\" rel=\"noopener\"" : "";
+
+      const listToHtml = (arr) => {
+        return `<ul class="kit-builder-result-list">` + arr.map(item => {
+          let img = item.imageUrl && !String(item.imageUrl).startsWith('Liquid error') 
+            ? `<img class="kit-builder-item-image" src="${item.imageUrl}" alt="${(item.title||item.sku).replace(/"/g,"&quot;")}">`
+            : `<div class="kit-builder-item-image-placeholder">Img</div>`;
+          return `<li class="kit-builder-result-item">
+                    ${img}
+                    <div class="kit-builder-item-details">
+                      <a class="kit-builder-item-title" href="${item.url}"${tgt}>${item.title}</a>
+                      <div class="kit-builder-item-quantity">{{ section.settings.text_qty_prefix | escape }} ${item.qty}</div>
+                      <div class="kit-builder-item-actions"></div>
+                    </div>
+                  </li>`;
+        }).join("") + `</ul>`;
+      };
+
+      let html = "";
+      if (normal.length) { html += `<h4>{{ section.settings.text_products | escape }}</h4>` + listToHtml(normal); }
+      if (uniqueSingles.size) { html += `<h4>{{ section.settings.text_common | escape }}</h4>` + listToHtml(Array.from(uniqueSingles.values())); }
+
+      if (cartPermalink) {
+        html += `<div class="kit-builder-actions" style="margin-top:1rem;">
+                  <a class="kit-builder-button" href="${cartPermalink}"${tgt}>{{ section.settings.text_add_to_cart | default: 'Add to Cart' | escape }}</a>
+                </div>`;
+      }
+
+      resultsContent.innerHTML = html || `<p class="kit-builder-no-results-text">{{ section.settings.text_no_products | escape }}</p>`;
+
+      stepType.style.display = "none"; stepResults.style.display = "block";
+      if ({{ section.settings.enable_smooth_scroll | json }}) container.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    async function init() {
+      const okCsv = await loadCsv();
+      const okMap = loadSkuMap();
+      if (!okCsv || !okMap) return;
+
+      setupLabels();
+      const opts1 = CSV.rows.map(r => r[0]);
+      optFill(q1, opts1); optFill(q2, []); optFill(q3, []);
+
+      q1.addEventListener("change", handleQ1);
+      q2.addEventListener("change", handleQ2);
+      nextBtn.addEventListener("click", renderResults);
+    }
+
+    init();
+  });
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Kit Builder (Fixed Style)",
+  "settings": [
+    { "type": "header", "content": "Data & Mapping" },
+    { "type": "collection", "id": "collection_handle", "label": "Collection to map SKU→variant" },
+    {
+      "type": "text",
+      "id": "csv_filename",
+      "label": "CSV filename (files › upload)",
+      "default": "conversion-en.csv",
+      "info": "Example: conversion-en.csv. Used as {{ csv_filename | file_url }}."
+    },
+    { "type": "text", "id": "single_instance_skus", "label": "Single-instance SKUs (comma-separated)", "default": "e" },
+    { "type": "text", "id": "placeholder_text", "label": "Select placeholder", "default": "Select…" },
+    { "type": "range", "id": "results_columns", "label": "Results columns", "min": 1, "max": 3, "step": 1, "default": 1 },
+    { "type": "checkbox", "id": "open_links_new_tab", "label": "Open product links in new tab", "default": true },
+    { "type": "checkbox", "id": "enable_smooth_scroll", "label": "Smooth scroll to results", "default": true },
+
+    { "type": "header", "content": "Results Images" },
+    { "type": "range", "id": "results_image_width", "label": "Image width (px)", "min": 80, "max": 800, "step": 10, "default": 320 },
+    { "type": "range", "id": "results_image_height", "label": "Image height (px)", "min": 80, "max": 800, "step": 10, "default": 320 },
+
+    { "type": "header", "content": "Texts" },
+    { "type": "text", "id": "title_select", "label": "Header title", "default": "CALCULATOR" },
+    { "type": "text", "id": "q1_label", "label": "Q1 label", "default": "Please choose the floor area (in square feet)" },
+    { "type": "text", "id": "q1_subtext", "label": "Q1 subtext", "default": "question2" },
+    { "type": "text", "id": "q2_label", "label": "Q2 label", "default": "Current number of thermostats" },
+    { "type": "text", "id": "q2_subtext", "label": "Q2 subtext", "default": "question 2" },
+    { "type": "text", "id": "q3_label", "label": "Q3 label", "default": "Do you want the workshop assembly?" },
+    { "type": "text", "id": "q3_subtext", "label": "Q3 subtext", "default": "With this option, our technicians carefully mount all components of the conversion kit onto a durable panel." },
+    { "type": "text", "id": "btn_show_results", "label": "Primary button", "default": "Get Result" },
+    { "type": "text", "id": "title_results", "label": "Results title", "default": "Recommended Products" },
+    { "type": "text", "id": "text_products", "label": "Products section title", "default": "Products" },
+    { "type": "text", "id": "text_common", "label": "Common components title", "default": "Common Components" },
+    { "type": "text", "id": "text_no_match", "label": "No row match text", "default": "No matching combination found in the CSV." },
+    { "type": "text", "id": "text_no_products", "label": "No products text", "default": "No products configured for these options." },
+    { "type": "text", "id": "text_add_to_cart", "label": "Add to cart button", "default": "Add to Cart" },
+    { "type": "text", "id": "text_qty_prefix", "label": "Quantity label", "default": "qty" }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Kit Builder – Fixed Style" }]
+}
+{% endschema %}

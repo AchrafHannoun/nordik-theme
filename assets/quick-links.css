@@ -1,0 +1,78 @@
+.quick-links {
+  --list-gap: calc(var(--gap-multiplier) * var(--space-unit));
+  display: block;
+}
+
+.quick-links:is(.quick-links--clipped) {
+  --row-count: 1;
+  --row-height: calc((0.88em * 1.2) + (var(--btn-padding-y) * 2) + (var(--btn-border-width) * 2));
+  --list-height-min: calc(var(--row-count) * var(--row-height) + (var(--row-count) - 1) * var(--list-gap));
+}
+.quick-links:is(.quick-links--clipped) .quick-links__list {
+  overflow: hidden;
+}
+.quick-links:is(.quick-links--clipped):not(.is-expanded) .quick-links__list {
+  max-height: var(--list-height-min);
+}
+.quick-links:is(.quick-links--clipped):is(.is-expanded) .quick-links__list {
+  max-height: var(--list-height-max);
+}
+
+.quick-links__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--list-gap);
+}
+.quick-links__list li {
+  flex-shrink: 0;
+}
+.quick-links__list a {
+  white-space: nowrap;
+}
+
+.quick-links__footer {
+  display: flex;
+  align-items: center;
+  margin-top: calc(4 * var(--space-unit));
+}
+.quick-links:not(.is-expanded):not(:has(.quick-links__list > .is-hidden)) .quick-links__footer {
+  display: none;
+}
+
+@media (max-width: 768.98px) {
+  .quick-links:is(.quick-links--clipped):is(.quick-links--carousel) .quick-links__list {
+    max-height: none;
+  }
+  .quick-links:is(.quick-links--carousel) {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .quick-links:is(.quick-links--carousel) .quick-links__list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 0 calc(var(--gutter)) 1px;
+    scrollbar-width: none;
+    overflow: auto visible;
+  }
+  .quick-links:is(.quick-links--carousel) .quick-links__list::-webkit-scrollbar {
+    display: none;
+  }
+  .quick-links:is(.quick-links--carousel) .quick-links__footer {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .quick-links--clipped .quick-links__list {
+    transition: max-height 0.3s cubic-bezier(0.2, 0.6, 0.4, 1);
+  }
+  .quick-links--clipped .quick-links__list li {
+    transition: opacity 0.3s ease 0s;
+  }
+  .quick-links--clipped .quick-links__list li.is-hidden {
+    transition-delay: 0s;
+    opacity: 0;
+  }
+  .quick-links--clipped:is(.is-expanded) .quick-links__list li {
+    transition-delay: 0.1s;
+  }
+}

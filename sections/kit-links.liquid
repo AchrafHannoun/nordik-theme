@@ -1,0 +1,181 @@
+<section id="links-section" class="links-section">
+  <div
+    id="links-root"
+    data-handle="{% if page %}{{ page.handle }}{% else %}{{ request.path | split: '/' | last }}{% endif %}"
+  ></div>
+  <div class="links-output" id="links-output"></div>
+  <div class="links-cart" id="links-cart"></div>
+</section>
+
+{%- assign collection = collections[section.settings.collection_handle] -%}
+
+<script id="sku-variant-map" type="application/json">
+  {
+    {%- assign products_for_map = collection.products -%}
+    {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
+      {%- assign products_for_map = collections['all'].products -%}
+    {%- endif -%}
+    {%- assign first_item = true -%}
+    {%- for product in products_for_map -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.sku != blank -%}
+          {%- unless first_item -%},{%- endunless -%}
+          "{{ variant.sku | escape }}": {
+            "variantId": {{ variant.id }},
+            "title": "{{ product.title | escape }}",
+            "productUrl": "{{ product.url | within: collection | default: product.url }}",
+            {%- assign img_url = '' -%}
+            {%- if variant.image -%}
+              {%- assign img_url = variant.image | image_url: width: section.settings.results_image_width -%}
+            {%- elsif product.featured_image -%}
+              {%- assign img_url = product.featured_image | image_url: width: section.settings.results_image_width -%}
+            {%- endif -%}
+            "imageUrl": "{{ img_url | escape }}"
+          }
+          {%- assign first_item = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  }
+</script>
+
+<script>
+    (function(){
+      const root = document.getElementById('links-root');
+      const output = document.getElementById('links-output');
+      const mapScript = document.getElementById('sku-variant-map');
+      if (!root || !output || !mapScript) return;
+    
+      const currentHandle = (root.dataset.handle || location.pathname.split('/').filter(Boolean).pop() || '')
+        .split('?')[0].split('#')[0].trim().toLowerCase();
+    
+      let skuVariantMap = {};
+      try { skuVariantMap = JSON.parse(mapScript.textContent || '{}'); } catch {}
+    
+      const csvUrl = {{ section.settings.csv_asset_name | file_url | json }};
+    
+      function splitCSVLine(line) {
+        const out = []; let cur = '', inQ = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else { inQ = !inQ; } }
+          else if (c === ',' && !inQ) { out.push(cur); cur = ''; }
+          else { cur += c; }
+        }
+        out.push(cur); return out;
+      }
+    
+      function parseRows(text) {
+        const rows = text.replace(/\uFEFF/g,'').replace(/\r\n?/g,'\n').split('\n').filter(r => r.trim());
+        if (!rows.length) return { rowsForHandle: [] };
+    
+        const headers = splitCSVLine(rows.shift()).map(h => h.trim());
+        const lower   = headers.map(h => h.toLowerCase());
+        // handle column
+        let handleIdx = -1;
+        for (const name of ['handle','page_handle','slug']) {
+          const i = lower.indexOf(name);
+          if (i !== -1) { handleIdx = i; break; }
+        }
+        if (handleIdx === -1) return { rowsForHandle: [] };
+    
+        // Collect SKU/QTY columns keyed by numeric suffix
+        const skuBySuffix = new Map(); // suffix -> index
+        const qtyBySuffix = new Map(); // suffix -> index
+        for (let i = 0; i < lower.length; i++) {
+          const norm = lower[i].replace(/\s+/g,'');
+          let m = norm.match(/^sku(\d*)$/i);
+          if (m) { skuBySuffix.set(m[1] || '', i); continue; }
+          m = norm.match(/^qty(\d*)$/i);
+          if (m) { qtyBySuffix.set(m[1] || '', i); continue; }
+        }
+        if (!skuBySuffix.size) return { rowsForHandle: [] };
+    
+        const rowsForHandle = [];
+        for (const line of rows) {
+          const cells = splitCSVLine(line).map(v => v.trim());
+          const h = (cells[handleIdx] || '').toLowerCase();
+          if (h !== currentHandle) continue;
+    
+          const items = [];
+          for (const [suf, idx] of skuBySuffix.entries()) {
+            const skuCell = (cells[idx] || '').trim();
+            if (!skuCell) continue;
+            const skus = skuCell.split(/\s*[;|]\s*/).filter(Boolean);
+            let qty = 1;
+            if (qtyBySuffix.has(suf)) {
+              const raw = (cells[qtyBySuffix.get(suf)] || '').toString().trim();
+              const n = parseInt(raw, 10);
+              if (Number.isNaN(n) || n <= 0) continue; // if QTYx exists it must be positive
+              qty = n;
+            }
+            for (const s of skus) items.push({ sku: s, qty });
+          }
+          if (items.length) rowsForHandle.push(items);
+        }
+        return { rowsForHandle };
+      }
+    
+      const rootPath = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+
+      function cartUrlForRow(rowItems) {
+        const pairs = [];
+        for (let i = rowItems.length - 1; i >= 0; i--) {
+          const { sku, qty } = rowItems[i];
+          const m = skuVariantMap[sku];
+          if (!m) continue;
+          pairs.push(`${m.variantId}:${qty}`);
+        }
+        return pairs.length ? `${rootPath}cart/${pairs.join(',')}?storefront=true` : '';
+      }
+
+function render(rowsForHandle) {
+  if (!rowsForHandle.length) {
+    output.innerHTML = `<div class="links-empty">Aucun kit pour “${currentHandle}”.</div>`;
+    return;
+  }
+  const blocks = rowsForHandle.map((row, i) => {
+    const url = cartUrlForRow(row);
+    const label = `Add to cart ${i + 1}`;
+    return url
+      ? `<p class="links-cta"><a class="links-button" href="${url}">${label}</a></p>`
+      : `<div class="links-error">${label}: no valid items</div>`;
+  }).join('');
+  output.innerHTML = blocks;
+}
+
+
+    
+      fetch(csvUrl + `?v=${Date.now()}`, { credentials: 'same-origin' })
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => render(parseRows(text).rowsForHandle))
+        .catch(() => { output.innerHTML = '<div class="links-error">CSV introuvable ou invalide.</div>'; });
+    })();
+</script>
+
+{% schema %}
+{
+  "name": "Links by handle",
+  "tag": "section",
+  "settings": [
+    { "type": "collection", "id": "collection_handle", "label": "Collection source (SKU → variant)" },
+    {
+      "type": "text",
+      "id": "csv_asset_name",
+      "label": "CSV filename (in Settings → Files)",
+      "default": "conversion.csv"
+    },
+    {
+      "type": "range",
+      "id": "results_image_width",
+      "label": "Image width",
+      "min": 60,
+      "max": 600,
+      "step": 20,
+      "default": 240,
+      "unit": "px"
+    }
+  ],
+  "presets": [{ "name": "Links by handle (Files with Cart Permalink)" }]
+}
+{% endschema %}

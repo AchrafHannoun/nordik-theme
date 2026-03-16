@@ -1,0 +1,848 @@
+<style>
+  .kit-builder,
+  .kit-builder-container {
+    --kit-font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    --kit-max-width: 680px;
+    --kit-bg-color: #1a1a1a;
+    --kit-text-color-main: #f0f0f0;
+    --kit-border-radius-main: 10px;
+    --kit-shadow-main: 0 4px 12px rgba(0,0,0,.45);
+
+    --kit-step-bg-color: #242424;
+    --kit-step-text-color: #f0f0f0;
+    --kit-step-border-radius: 8px;
+
+    --kit-label-font-weight: 600;
+    --kit-label-font-size: 1.2rem;
+    --kit-label-text-color: #f0f0f0;
+    --kit-subtext-text-color: #cfcfcf;
+
+    --kit-select-bg-color: #fff;
+    --kit-select-text-color: #333;
+    --kit-select-border-color: #555;
+    --kit-select-border-radius: 6px;
+    --kit-select-focus-border-color: #0aa6ff;
+    --kit-select-focus-shadow: 0 0 0 .2rem rgba(10,166,255,.3);
+
+    --kit-button-font-size: 1.05rem;
+    --kit-button-primary-bg: #0a84ff;
+    --kit-button-primary-text: #fff;
+    --kit-button-primary-border: #0a84ff;
+    --kit-button-primary-bg-hover: #0666cc;
+
+    --kit-button-secondary-bg: #50565c;
+    --kit-button-secondary-text: #fff;
+    --kit-button-secondary-border: #50565c;
+    --kit-button-secondary-bg-hover: #3c4146;
+
+    --kit-button-danger-bg: #c82333;
+    --kit-button-danger-text: #fff;
+    --kit-button-danger-border: #c82333;
+    --kit-button-danger-bg-hover: #a81d2a;
+
+    --kit-results-area-bg: #2a2a2a;
+    --kit-results-area-text-color: #f0f0f0;
+    --kit-results-title-color: #fff;
+    --kit-results-link-color: #00aaff;
+    --kit-results-link-hover-color: #0088cc;
+    --kit-results-item-bg: #333;
+    --kit-results-item-border: 1px solid #464646;
+    --kit-results-item-border-color: #464646;
+    --kit-results-item-border-radius: 6px;
+
+    --kit-error-bg-color: #4d1218;
+    --kit-error-text-color: #f5c6cb;
+    --kit-error-border-color: #721c24;
+
+    --kit-results-image-width: 64px;
+    --kit-results-image-height: 64px;
+
+    font-family: var(--kit-font-family);
+    max-width: var(--kit-max-width);
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--kit-bg-color);
+    color: var(--kit-text-color-main);
+    border-radius: var(--kit-border-radius-main);
+    box-shadow: var(--kit-shadow-main);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* Steps */
+  .kit-builder .kit-builder-step,
+  .kit-builder-container .kit-builder-step {
+    padding: 2rem 1.25rem;
+    border-radius: var(--kit-step-border-radius);
+    background: var(--kit-step-bg-color);
+    color: var(--kit-step-text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  /* Fields + labels */
+  .kit-builder .kit-builder-field,
+  .kit-builder-container .kit-builder-field,
+  .kit-builder .kit-builder-question-wrapper,
+  .kit-builder-container .kit-builder-question-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+    margin-bottom: 1rem;
+  }
+
+  .kit-builder label,
+  .kit-builder-container label {
+    font-weight: var(--kit-label-font-weight);
+    font-size: var(--kit-label-font-size);
+    color: var(--kit-label-text-color);
+  }
+
+  /* Selects */
+  .kit-builder select,
+  .kit-builder-container select {
+    padding: .9rem 1.3rem;
+    font-size: 1.05rem;
+    border: 1px solid var(--kit-select-border-color);
+    border-radius: var(--kit-select-border-radius);
+    background: var(--kit-select-bg-color);
+    color: var(--kit-select-text-color);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .85rem center;
+    background-size: 1.1em;
+    padding-right: 2.5rem;
+    text-align: center;
+    text-align-last: center;
+  }
+  .kit-builder select:focus,
+  .kit-builder-container select:focus {
+    border-color: var(--kit-select-focus-border-color);
+    box-shadow: var(--kit-select-focus-shadow);
+    outline: none;
+  }
+  option { text-align: center; }
+
+  /* Buttons */
+  .kit-builder .kit-builder-button,
+  .kit-builder-container .kit-builder-button {
+    padding: .9rem 1.6rem;
+    font-size: var(--kit-button-font-size);
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color .15s ease, box-shadow .15s ease, transform .05s ease;
+    border: 1px solid transparent;
+    color: #fff;
+    background: var(--kit-button-primary-bg);
+    border-color: var(--kit-button-primary-border);
+    text-decoration: none;
+    display: inline-block;
+    min-width: 160px;
+  }
+  .kit-builder .kit-builder-button:hover,
+  .kit-builder-container .kit-builder-button:hover {
+    background: var(--kit-button-primary-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  }
+  /* Optional variants */
+  .kit-builder .kit-builder-secondary,
+  .kit-builder-container .kit-builder-secondary {
+    background: var(--kit-button-secondary-bg);
+    border-color: var(--kit-button-secondary-border);
+  }
+  .kit-builder .kit-builder-secondary:hover,
+  .kit-builder-container .kit-builder-secondary:hover {
+    background: var(--kit-button-secondary-bg-hover);
+  }
+  .kit-builder .kit-builder-danger,
+  .kit-builder-container .kit-builder-danger {
+    background: var(--kit-button-danger-bg);
+    border-color: var(--kit-button-danger-border);
+  }
+  .kit-builder .kit-builder-danger:hover,
+  .kit-builder-container .kit-builder-danger:hover {
+    background: var(--kit-button-danger-bg-hover);
+  }
+
+  /* Error */
+  .kit-builder .kit-builder-error,
+  .kit-builder-container .kit-builder-error,
+  .kit-builder .kit-builder-error-message,
+  .kit-builder-container .kit-builder-error-message {
+    background: var(--kit-error-bg-color);
+    color: var(--kit-error-text-color) !important;
+    border: 1px solid var(--kit-error-border-color);
+    border-radius: 6px;
+    font-weight: 700;
+    padding: .75rem 1rem;
+    text-align: center;
+  }
+
+  /* Results area */
+  .kit-builder [id^="kit-builder-results-content-"],
+  .kit-builder-container [id^="kit-builder-results-content-"] {
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+    background: var(--kit-results-area-bg);
+    color: var(--kit-results-area-text-color);
+    border-radius: 8px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .kit-builder [id^="kit-builder-results-content-"] h3,
+  .kit-builder-container [id^="kit-builder-results-content-"] h3 {
+    color: var(--kit-results-title-color);
+    margin: 0 0 .75rem 0;
+    font-size: 1.35rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid #3a3a3a;
+  }
+
+  .kit-builder .kit-builder-results-unit-title,
+  .kit-builder-container .kit-builder-results-unit-title {
+    font-weight: 700;
+    color: var(--kit-results-title-color);
+    margin: 1.2rem 0 .9rem 0;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--kit-results-item-border-color);
+  }
+
+  .kit-builder .kit-builder-results-section-title,
+  .kit-builder-container .kit-builder-results-section-title {
+    font-weight: 600;
+    color: var(--kit-results-title-color);
+    margin: .9rem 0 .6rem 0;
+  }
+
+  /* Result list + items */
+  .kit-builder .kit-builder-result-list,
+  .kit-builder-container .kit-builder-result-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .kit-builder .kit-builder-result-item,
+  .kit-builder-container .kit-builder-result-item {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    background: var(--kit-results-item-bg);
+    border: var(--kit-results-item-border);
+    border-radius: var(--kit-results-item-border-radius);
+    padding: .9rem;
+    margin-bottom: .75rem;
+    color: #e3e3e3;
+  }
+  .kit-builder .kit-builder-item-image,
+  .kit-builder .kit-builder-item-image-placeholder,
+  .kit-builder-container .kit-builder-item-image,
+  .kit-builder-container .kit-builder-item-image-placeholder {
+    width: var(--kit-results-image-width);
+    height: var(--kit-results-image-height);
+    object-fit: cover;
+    border-radius: 6px;
+    background: #555;
+    flex-shrink: 0;
+  }
+  .kit-builder .kit-builder-item-image-placeholder,
+  .kit-builder-container .kit-builder-item-image-placeholder {
+    display: grid;
+    place-items: center;
+    border: 1px dashed var(--kit-results-item-border-color);
+    color: #aaa;
+    font-size: .75rem;
+  }
+  .kit-builder .kit-builder-item-image-placeholder::before,
+  .kit-builder-container .kit-builder-item-image-placeholder::before {
+    content: "Img";
+  }
+  .kit-builder .kit-builder-item-details,
+  .kit-builder-container .kit-builder-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    min-width: 0;
+  }
+  .kit-builder .kit-builder-item-title,
+  .kit-builder-container .kit-builder-item-title {
+    color: var(--kit-results-link-color);
+    text-decoration: none;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .kit-builder .kit-builder-item-title:hover,
+  .kit-builder-container .kit-builder-item-title:hover {
+    color: var(--kit-results-link-hover-color);
+    text-decoration: underline;
+  }
+  .kit-builder .kit-builder-item-quantity,
+  .kit-builder-container .kit-builder-item-quantity {
+    opacity: .9;
+    font-size: .95rem;
+  }
+
+  .kit-builder .kit-builder-unit-separator,
+  .kit-builder-container .kit-builder-unit-separator {
+    border: none;
+    height: 1px;
+    background: var(--kit-results-item-border-color);
+    margin: 1.5rem 0 1rem 0;
+  }
+
+  .kit-builder .kit-builder-no-results-text,
+  .kit-builder-container .kit-builder-no-results-text {
+    padding: 1rem;
+    text-align: center;
+    background: var(--kit-results-item-bg);
+    border-radius: var(--kit-results-item-border-radius);
+    font-style: italic;
+  }
+
+  /* Summary list (optional) */
+  .kit-builder [id^="kit-builder-units-summary-list-"],
+  .kit-builder-container [id^="kit-builder-units-summary-list-"] {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+  }
+  .kit-builder .kit-builder-summary-item,
+  .kit-builder-container .kit-builder-summary-item {
+    padding: .9rem;
+    background: #333;
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: #e0e0e0;
+  }
+  .kit-builder .kit-builder-summary-item p,
+  .kit-builder-container .kit-builder-summary-item p {
+    margin: 0 0 .5rem 0;
+    font-weight: 700;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .kit-builder,
+    .kit-builder-container {
+      margin: 1rem auto;
+      padding: 1.25rem 1rem;
+    }
+    .kit-builder .kit-builder-step,
+    .kit-builder-container .kit-builder-step {
+      padding: 1.5rem 1rem;
+    }
+    .kit-builder select,
+    .kit-builder-container select {
+      max-width: 100%;
+      font-size: .98rem;
+    }
+    .kit-builder .kit-builder-button,
+    .kit-builder-container .kit-builder-button {
+      width: 100%;
+      font-size: 1rem;
+    }
+    .kit-builder .kit-builder-item-image,
+    .kit-builder .kit-builder-item-image-placeholder,
+    .kit-builder-container .kit-builder-item-image,
+    .kit-builder-container .kit-builder-item-image-placeholder {
+      width: 52px;
+      height: 52px;
+    }
+  }
+</style>
+<div
+  id="kit-builder-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-csv-url="{{ section.settings.csv_filename | file_url }}"
+  data-placeholder-text="{{ section.settings.placeholder_text | escape }}"
+  data-single-instance-skus="{{ section.settings.single_instance_skus | escape }}"
+  data-results-image-width="{{ section.settings.results_image_width }}"
+  class="kit-builder"
+>
+  <div id="kit-builder-error-{{ section.id }}" class="kit-builder-error" style="display:none;"></div>
+
+  <div class="kit-builder-step" id="kit-builder-step-unit-type-{{ section.id }}">
+    <h3 id="kit-builder-step-unit-type-title-{{ section.id }}">{{ section.settings.title_select }}</h3>
+    <div class="kit-builder-field">
+      <label id="label-q1-{{ section.id }}" for="q1-{{ section.id }}">…</label>
+      <select id="q1-{{ section.id }}" class="kit-builder-select"></select>
+    </div>
+    <div class="kit-builder-field">
+      <label id="label-q2-{{ section.id }}" for="q2-{{ section.id }}">…</label>
+      <select id="q2-{{ section.id }}" class="kit-builder-select"></select>
+    </div>
+    <div class="kit-builder-field">
+      <label id="label-q3-{{ section.id }}" for="q3-{{ section.id }}">…</label>
+      <select id="q3-{{ section.id }}" class="kit-builder-select"></select>
+    </div>
+    <button type="button" id="kit-builder-next-to-details-{{ section.id }}" class="kit-builder-button">
+      {{ section.settings.btn_show_results }}
+    </button>
+  </div>
+
+  <div class="kit-builder-step" id="kit-builder-step-results-{{ section.id }}" style="display:none;">
+    <h3>{{ section.settings.title_results }}</h3>
+    <div id="kit-builder-results-content-{{ section.id }}"></div>
+  </div>
+
+  <style>
+    .kit-builder { gap: 1rem; }
+    .kit-builder-field { margin-bottom: .75rem; }
+    .kit-builder-select { width: 100%; max-width: 480px; }
+    .kit-builder-button { padding: .5rem 1rem; }
+    .kit-builder-error { color: #b00020; margin-bottom: .75rem; }
+    .kit-builder-result-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .75rem; }
+    .kit-builder-result-item { display: grid; grid-template-columns: 72px 1fr; gap: .75rem; align-items: center; }
+    .kit-builder-item-image { width: 72px; height: 72px; object-fit: cover; border: 1px solid rgba(0,0,0,.1); }
+    .kit-builder-item-image-placeholder { width:72px; height:72px; background: repeating-linear-gradient(45deg,#f3f3f3,#f3f3f3 10px,#eee 10px,#eee 20px); border:1px solid rgba(0,0,0,.1); }
+    .kit-builder-item-title { text-decoration: underline; }
+    .kit-builder-no-results-text { opacity: .8; }
+  </style>
+
+  {%- assign collection = collections[section.settings.collection_handle] -%}
+  <script id="kit-builder-sku-variant-map-{{ section.id }}" type="application/json">
+    {
+      {%- assign products_for_map = collection.products -%}
+      {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
+        {%- assign products_for_map = collections['all'].products -%}
+      {%- endif -%}
+      {%- assign first_item = true -%}
+      {%- for product in products_for_map -%}
+        {%- for variant in product.variants -%}
+          {%- if variant.sku != blank -%}
+            {%- unless first_item -%},{%- endunless -%}
+            "{{ variant.sku | escape }}": {
+              "variantId": {{ variant.id }},
+              "title": "{{ product.title | escape }}",
+              "productUrl": "{{ product.url | within: collection | default: product.url }}",
+              {%- assign img_url = '' -%}
+              {%- if variant.image -%}
+                {%- assign img_url = variant.image | image_url: width: section.settings.results_image_width -%}
+              {%- elsif product.featured_image -%}
+                {%- assign img_url = product.featured_image | image_url: width: section.settings.results_image_width -%}
+              {%- endif -%}
+              "imageUrl": "{{ img_url | escape }}"
+            }
+            {%- assign first_item = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('kit-builder-{{ section.id }}');
+      if (!container) return;
+
+      const sectionId = container.dataset.sectionId;
+      const errorDisplay = document.getElementById(`kit-builder-error-${sectionId}`);
+      const stepType = document.getElementById(`kit-builder-step-unit-type-${sectionId}`);
+      const stepResults = document.getElementById(`kit-builder-step-results-${sectionId}`);
+      const resultsContent = document.getElementById(`kit-builder-results-content-${sectionId}`);
+      const nextBtn = document.getElementById(`kit-builder-next-to-details-${sectionId}`);
+
+      const q1 = document.getElementById(`q1-${sectionId}`);
+      const q2 = document.getElementById(`q2-${sectionId}`);
+      const q3 = document.getElementById(`q3-${sectionId}`);
+      const lq1 = document.getElementById(`label-q1-${sectionId}`);
+      const lq2 = document.getElementById(`label-q2-${sectionId}`);
+      const lq3 = document.getElementById(`label-q3-${sectionId}`);
+
+      const mapScript = document.getElementById(`kit-builder-sku-variant-map-${sectionId}`);
+
+      const settings = {
+        csvUrl: container.dataset.csvUrl,
+        placeholderText: container.dataset.placeholderText || 'Sélectionner…',
+        singleInstanceSkus: (container.dataset.singleInstanceSkus || '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
+
+      const CSV = { headers: [], rows: [] };
+      let skuMap = {};
+
+      function err(msg) {
+        if (errorDisplay) {
+          errorDisplay.textContent = msg;
+          errorDisplay.style.display = 'block';
+        }
+        console.error('KitBuilder:', msg);
+      }
+      function clearErr() {
+        if (errorDisplay) {
+          errorDisplay.textContent = '';
+          errorDisplay.style.display = 'none';
+        }
+      }
+
+      function optReset(select) {
+        const cur = select.value;
+        select.innerHTML = '';
+        const ph = document.createElement('option');
+        ph.value = '';
+        ph.textContent = settings.placeholderText;
+        select.appendChild(ph);
+        return cur;
+      }
+      function optFill(select, list) {
+        const cur = optReset(select);
+        [...new Set(list)]
+          .filter(Boolean)
+          .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }))
+          .forEach((v) => {
+            const o = document.createElement('option');
+            o.value = String(v);
+            o.textContent = String(v);
+            select.appendChild(o);
+          });
+        select.value = list.includes(cur) ? cur : '';
+      }
+
+      function parseCsv(text) {
+        const rows = [];
+        let field = '',
+          row = [],
+          inside = false;
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i];
+          if (c === '"') {
+            if (inside && text[i + 1] === '"') {
+              field += '"';
+              i++;
+            } else {
+              inside = !inside;
+            }
+          } else if (c === ',' && !inside) {
+            row.push(field);
+            field = '';
+          } else if ((c === '\n' || c === '\r') && !inside) {
+            if (c === '\r' && text[i + 1] === '\n') i++; // CRLF
+            // fin de ligne
+            row.push(field);
+            field = '';
+            // ignorer lignes vides (ex: dernière ligne)
+            const nonEmpty = row.some((v) => String(v).trim() !== '');
+            if (nonEmpty) rows.push(row.map((v) => String(v).trim()));
+            row = [];
+          } else {
+            field += c;
+          }
+        }
+        // dernière cellule si pas de saut de ligne final
+        if (field.length || row.length) {
+          row.push(field);
+          const nonEmpty = row.some((v) => String(v).trim() !== '');
+          if (nonEmpty) rows.push(row.map((v) => String(v).trim()));
+        }
+        return rows;
+      }
+
+      async function loadCsv() {
+        if (!settings.csvUrl || settings.csvUrl.endsWith('/')) {
+          err('CSV introuvable ou non configuré.');
+          return false;
+        }
+        try {
+          const res = await fetch(settings.csvUrl, { cache: 'no-store' });
+          if (!res.ok) throw new Error(res.statusText);
+          const text = await res.text();
+          const rows = parseCsv(text);
+
+          if (rows.length < 2) throw new Error('CSV vide.');
+          CSV.headers = rows[0].map((h) => String(h).replace(/^\uFEFF/, '')); // retire BOM
+          CSV.rows = rows.slice(1).filter((r) => r.length >= CSV.headers.length - 1); // lignes valides
+
+          // sécurise tailles de lignes
+          CSV.rows = CSV.rows.map((r) => {
+            const copy = r.slice();
+            while (copy.length < CSV.headers.length) copy.push('');
+            return copy;
+          });
+
+          return true;
+        } catch (e) {
+          err('Chargement CSV: ' + e.message);
+          return false;
+        }
+      }
+
+      function loadSkuMap() {
+        if (!mapScript || !mapScript.textContent) {
+          err('Map SKU→variant manquante.');
+          return false;
+        }
+        try {
+          skuMap = JSON.parse(mapScript.textContent);
+          return true;
+        } catch (e) {
+          err('Map SKU→variant invalide: ' + e.message);
+          return false;
+        }
+      }
+
+      function setupLabels() {
+        const qHeaders = CSV.headers.slice(0, 3);
+        if (lq1) lq1.textContent = qHeaders[0] || 'Question 1';
+        if (lq2) lq2.textContent = qHeaders[1] || 'Question 2';
+        if (lq3) lq3.textContent = qHeaders[2] || 'Question 3';
+      }
+
+      function handleQ1() {
+        const h = CSV.headers;
+        const h1 = 0,
+          h2 = 1;
+        const v1 = q1.value;
+        const opts2 = CSV.rows.filter((r) => !v1 || r[h1] === v1).map((r) => r[h2]);
+        optFill(q2, opts2);
+        optFill(q3, []); // reset q3
+      }
+
+      function handleQ2() {
+        const h = CSV.headers;
+        const h1 = 0,
+          h2 = 1,
+          h3 = 2;
+        const v1 = q1.value,
+          v2 = q2.value;
+        const opts3 = CSV.rows.filter((r) => (!v1 || r[h1] === v1) && (!v2 || r[h2] === v2)).map((r) => r[h3]);
+        optFill(q3, opts3);
+      }
+
+      function renderResults() {
+        clearErr();
+        resultsContent.innerHTML = '';
+
+        const h = CSV.headers;
+        if (h.length < 3) {
+          err('Le CSV doit contenir au moins 3 colonnes pour les questions.');
+          return;
+        }
+        const h1 = 0,
+          h2 = 1,
+          h3 = 2;
+
+        if (!q1.value || !q2.value || !q3.value) {
+          err('Sélectionne les 3 options.');
+          return;
+        }
+
+        // Trouver la ligne exacte correspondant aux 3 choix
+        const row = CSV.rows.find((r) => r[h1] === q1.value && r[h2] === q2.value && r[h3] === q3.value);
+        if (!row) {
+          resultsContent.innerHTML = `<p class="kit-builder-no-results-text">{{ section.settings.text_no_match | escape }}</p>`;
+          stepType.style.display = 'block';
+          stepResults.style.display = 'none';
+          return;
+        }
+
+        // Extraire toutes les paires SKUx/QTYx
+        const lower = h.map((x) => String(x).toLowerCase());
+        const items = [];
+        for (let i = 0; i < lower.length; i++) {
+          if (lower[i].startsWith('sku')) {
+            const suffix = lower[i].slice(3); // "1","2",...
+            const qtyIdx = lower.findIndex((col) => col.replace(/[_-]/g, '') === ('qty' + suffix).replace(/[_-]/g, ''));
+            const skuVal = (row[i] || '').trim();
+            if (!skuVal) continue;
+            if (qtyIdx === -1) continue;
+            const qty = parseInt(row[qtyIdx], 10);
+            if (!Number.isFinite(qty) || qty <= 0) continue;
+
+            const prod = skuMap[skuVal] || {};
+            items.push({
+              sku: skuVal,
+              qty: qty,
+              variantId: prod.variantId || null,
+              title: prod.title || skuVal,
+              url: prod.productUrl || '#',
+              imageUrl: prod.imageUrl || '',
+            });
+          }
+        }
+
+        if (items.length === 0) {
+          resultsContent.innerHTML = `<p class="kit-builder-no-results-text">{{ section.settings.text_no_products | escape }}</p>`;
+        } else {
+          // Items “single instance” dédupliqués
+          const singleSet = new Set(settings.singleInstanceSkus);
+          const uniqueSingles = new Map();
+          const normal = [];
+
+          items.forEach((it) => {
+            if (singleSet.has(it.sku)) {
+              if (!uniqueSingles.has(it.sku)) uniqueSingles.set(it.sku, it);
+            } else {
+              normal.push(it);
+            }
+          });
+
+          const listToHtml = (arr) => {
+            return (
+              `<ul class="kit-builder-result-list">` +
+              arr
+                .map((item) => {
+                  let img =
+                    item.imageUrl && !String(item.imageUrl).startsWith('Liquid error')
+                      ? `<img class="kit-builder-item-image" src="${item.imageUrl}" alt="${(
+                          item.title || item.sku
+                        ).replace(/"/g, '&quot;')}">`
+                      : `<div class="kit-builder-item-image-placeholder"></div>`;
+                  return `<li class="kit-builder-result-item">
+                        ${img}
+                        <div class="kit-builder-item-details">
+                          <a class="kit-builder-item-title" href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+                          <div>Qty: ${item.qty}</div>
+                        </div>
+                      </li>`;
+                })
+                .join('') +
+              `</ul>`
+            );
+          };
+
+          let html = '';
+          if (normal.length) {
+            html += `<h4>{{ section.settings.text_products | escape }}</h4>`;
+            html += listToHtml(normal);
+          }
+          if (uniqueSingles.size) {
+            html += `<h4>{{ section.settings.text_common | escape }}</h4>`;
+            html += listToHtml(Array.from(uniqueSingles.values()));
+          }
+
+          resultsContent.innerHTML =
+            html || `<p class="kit-builder-no-results-text">{{ section.settings.text_no_products | escape }}</p>`;
+        }
+
+        stepType.style.display = 'none';
+        stepResults.style.display = 'block';
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      async function init() {
+        const okCsv = await loadCsv();
+        const okMap = loadSkuMap();
+        if (!okCsv || !okMap) return;
+
+        setupLabels();
+
+        // Remplir Q1 initial
+        const opts1 = CSV.rows.map((r) => r[0]);
+        optFill(q1, opts1);
+        optFill(q2, []);
+        optFill(q3, []);
+
+        q1.addEventListener('change', handleQ1);
+        q2.addEventListener('change', handleQ2);
+        nextBtn.addEventListener('click', renderResults);
+      }
+
+      init();
+    });
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Kit Builder depuis CSV",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection_handle",
+      "label": "Collection source (pour mapper SKU→variant)"
+    },
+    {
+      "type": "text",
+      "id": "csv_filename",
+      "label": "Nom de fichier CSV (fichier › importer)",
+      "default": "Conversion Mazout-Électricité - Conversion Mazout-Électricité (1).csv",
+      "info": "Ex: mon-fichier.csv. Le code utilise {{ csv_filename | file_url }}."
+    },
+    {
+      "type": "textarea",
+      "id": "single_instance_skus",
+      "label": "SKUs communs (dédupliquer)",
+      "default": "e",
+      "info": "Séparer par des virgules. Ex: TOOL-001,TOOL-002"
+    },
+    {
+      "type": "range",
+      "id": "results_image_width",
+      "label": "Largeur image résultats",
+      "min": 100,
+      "max": 800,
+      "step": 20,
+      "default": 320
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Texte placeholder des sélecteurs",
+      "default": "Sélectionner…"
+    },
+    {
+      "type": "text",
+      "id": "title_select",
+      "label": "Titre: sélection",
+      "default": "Configure ton kit"
+    },
+    {
+      "type": "text",
+      "id": "btn_show_results",
+      "label": "Bouton: afficher résultats",
+      "default": "Afficher les résultats"
+    },
+    {
+      "type": "text",
+      "id": "title_results",
+      "label": "Titre: résultats",
+      "default": "Produits recommandés"
+    },
+    {
+      "type": "text",
+      "id": "text_products",
+      "label": "Titre liste produits",
+      "default": "Produits"
+    },
+    {
+      "type": "text",
+      "id": "text_common",
+      "label": "Titre liste composants communs",
+      "default": "Composants communs"
+    },
+    {
+      "type": "text",
+      "id": "text_no_match",
+      "label": "Texte: aucune ligne correspondante",
+      "default": "Aucune combinaison correspondante dans le CSV."
+    },
+    {
+      "type": "text",
+      "id": "text_no_products",
+      "label": "Texte: aucun produit",
+      "default": "Aucun produit configuré pour ces options."
+    }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Kit Builder CSV (3 questions)" }]
+}
+{% endschema %}

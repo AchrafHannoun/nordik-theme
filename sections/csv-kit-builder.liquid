@@ -1,0 +1,1309 @@
+<style>
+  #shopify-section-template--17435792900180__conversion_6gdDdF {
+    padding-inline : 2% !important;
+  }
+  #kit-builder-{{ section.id }}.kit-builder-container {
+    --kit-max-width: {{ section.settings.container_max_width }}px;
+    --kit-font-family: {{ section.settings.font_family }};
+
+    --kit-bg-color: {{ section.settings.container_bg_color }};
+    --kit-text-color-main: {{ section.settings.container_text_color }};
+    --kit-border-radius-main: {{ section.settings.container_border_radius }}px;
+    --kit-shadow-main: {{ section.settings.container_shadow }};
+
+    --kit-field-border-style: {{ section.settings.border_field_style }};
+    --kit-field-border-color: {{ section.settings.border_field_color }};
+    --kit-field-border-radius: {{ section.settings.border_field_radius}}px;
+    --kit-field-border-width: {{ section.settings.border_field_width}}px;
+    --kit-field-border-padding: {{ section.settings.border_field_padding}}px;
+
+    --kit-step-bg-color: {{ section.settings.step_bg_color }};
+    --kit-step-border-radius: {{ section.settings.step_border_radius }}px;
+    --kit-step-title-color: {{ section.settings.step_title_color }};
+    --kit-step-title-font-size: {{ section.settings.step_title_font_size }}rem;
+    --kit-step-text-color: {{ section.settings.step_text_color }};
+
+    --kit-label-text-color: {{ section.settings.label_text_color }};
+    --kit-label-font-size: {{ section.settings.label_font_size }}rem;
+    --kit-label-font-weight: {{ section.settings.label_font_weight }};
+    --kit-label-image-max-width: {{ section.settings.label_image_max_width }}px;
+    --kit-label-image-spacing: {{ section.settings.label_image_spacing }}px;
+
+    --kit-subtext-text-color: {{ section.settings.subtext_text_color }};
+    --kit-subtext-font-size: {{ section.settings.subtext_font_size }}rem;
+    --kit-subtext-margin-top: {{ section.settings.subtext_margin_top }}px;
+
+    --kit-select-bg-color: {{ section.settings.select_bg_color }};
+    --kit-select-text-color: {{ section.settings.select_text_color }};
+    --kit-select-border-color: {{ section.settings.select_border_color }};
+    --kit-select-border-radius: {{ section.settings.select_border_radius }}px;
+    --kit-select-font-size: {{ section.settings.select_font_size }}rem;
+    --kit-select-arrow-color: {{ section.settings.select_arrow_color }};
+    --kit-select-focus-border-color: {{ section.settings.select_focus_border_color }};
+    --kit-select-focus-shadow: {{ section.settings.select_focus_shadow }};
+
+    --kit-button-font-size: {{ section.settings.button_font_size }}rem;
+    --kit-button-font-weight: {{ section.settings.button_font_weight }};
+    --kit-button-border-radius: {{ section.settings.button_border_radius }}px;
+    --kit-button-padding: {{ section.settings.button_padding_y }}rem {{ section.settings.button_padding_x }}rem;
+
+    --kit-button-primary-bg: {{ section.settings.button_primary_bg_color }};
+    --kit-button-primary-text: {{ section.settings.button_primary_text_color }};
+    --kit-button-primary-border: {{ section.settings.button_primary_border_color }};
+    --kit-button-primary-bg-hover: {{ section.settings.button_primary_hover_bg_color }};
+    --kit-button-primary-text-hover: {{ section.settings.button_primary_hover_text_color }};
+    --kit-button-primary-border-hover: {{ section.settings.button_primary_hover_border_color }};
+
+    --kit-button-secondary-bg: {{ section.settings.button_secondary_bg_color }};
+    --kit-button-secondary-text: {{ section.settings.button_secondary_text_color }};
+    --kit-button-secondary-border: {{ section.settings.button_secondary_border_color }};
+    --kit-button-secondary-bg-hover: {{ section.settings.button_secondary_hover_bg_color }};
+    --kit-button-secondary-text-hover: {{ section.settings.button_secondary_hover_text_color }};
+    --kit-button-secondary-border-hover: {{ section.settings.button_secondary_hover_border_color }};
+
+    --kit-button-danger-bg: {{ section.settings.button_danger_bg_color }};
+    --kit-button-danger-text: {{ section.settings.button_danger_text_color }};
+    --kit-button-danger-border: {{ section.settings.button_danger_border_color }};
+    --kit-button-danger-bg-hover: {{ section.settings.button_danger_hover_bg_color }};
+    --kit-button-danger-text-hover: {{ section.settings.button_danger_hover_text_color }};
+    --kit-button-danger-border-hover: {{ section.settings.button_danger_hover_border_color }};
+
+    --kit-results-area-bg: {{ section.settings.results_area_bg_color }};
+    --kit-results-area-text-color: {{ section.settings.results_area_text_color }};
+    --kit-results-area-border-radius: {{ section.settings.results_area_border_radius }}px;
+    --kit-results-title-color: {{ section.settings.results_title_color }};
+    --kit-results-item-bg: {{ section.settings.results_item_bg_color }};
+    --kit-results-item-text-color: {{ section.settings.results_item_text_color }};
+    --kit-results-item-border: 1px solid {{ section.settings.results_item_border_color }};
+    --kit-results-item-border-radius: {{ section.settings.results_item_border_radius }}px;
+    --kit-results-link-color: {{ section.settings.results_link_color }};
+    --kit-results-link-hover-color: {{ section.settings.results_link_hover_color }};
+    --kit-results-image-width: {{ section.settings.results_image_width }}px;
+    --kit-results-image-height: {{ section.settings.results_image_height }}px;
+    --kit-results-image-border-radius: {{ section.settings.results_image_border_radius }}px;
+
+
+    --kit-error-bg-color: {{ section.settings.error_bg_color }};
+    --kit-error-text-color: {{ section.settings.error_text_color }};
+    --kit-error-border-color: {{ section.settings.error_border_color }};
+    --kit-error-border-radius: {{ section.settings.error_border_radius }}px;
+
+    --kit-summary-item-bg: {{ section.settings.summary_item_bg_color }};
+    --kit-summary-item-text-color: {{ section.settings.summary_item_text_color }};
+    --kit-summary-item-border: 1px solid {{ section.settings.summary_item_border_color }};
+    --kit-summary-item-border-radius: {{ section.settings.summary_item_border_radius }}px;
+    --kit-builder-item-title-font-size : {{section.settings.summary_item_title_font_size}}rem;
+    --kit-builder-item-text-font-size : {{section.settings.summary_item_text_font_size}}rem;
+    --kit-builder-results-section-title-font-size: {{section.settings.section_title_text_font_size}}rem;
+  }
+</style>
+
+{{ 'csv-kit-builder.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="kit-builder-container"
+  id="kit-builder-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-csv-url="{{ section.settings.csv_filename | file_url }}"
+  data-collection-handle="{{ section.settings.collection_handle | default: 'all' }}"
+  data-single-instance-skus="{{ section.settings.skus_single_instance_in_cart | escape }}"
+  data-placeholder-text="{{ section.settings.placeholder_text | escape }}"
+  data-label-unit-type="{{ section.settings.label_unit_type | escape }}"
+  data-label-distance="{{ section.settings.label_distance | escape }}"
+  data-label-revetement="{{ section.settings.label_revetement | escape }}"
+  data-label-superficie="{{ section.settings.label_superficie | escape }}"
+  data-label-unit-type-maison="{{ section.settings.label_unit_type_maison | escape }}"
+  data-label-unit-type-maison-sous-sol="{{ section.settings.label_unit_type_maison_sous_sol | escape }}"
+  data-label-unit-type-maison-rdj="{{ section.settings.label_unit_type_maison_rdj | escape }}"
+  data-label-unit-type-maison-rdc="{{ section.settings.label_unit_type_maison_rdc | escape }}"
+  data-label-unit-type-maison-etage1="{{ section.settings.label_unit_type_maison_etage1 | escape }}"
+  data-label-unit-type-maison-etage2="{{ section.settings.label_unit_type_maison_etage2 | escape }}"
+  data-label-unit-type-maison-mezzanine="{{ section.settings.label_unit_type_maison_mezzanine | escape }}"
+  data-label-unit-type-garage="{{ section.settings.label_unit_type_garage | escape }}"
+  data-label-add-another-unit-q="{{ section.settings.label_add_another_unit_q | escape }}"
+  data-btn-yes="{{ section.settings.btn_yes | escape }}"
+  data-btn-no-finalize="{{ section.settings.btn_no_finalize | escape }}"
+  data-btn-save-unit="{{ section.settings.btn_save_unit | escape }}"
+  data-btn-next-step="{{ section.settings.btn_next_step | escape }}"
+  data-btn-prev-step="{{ section.settings.btn_prev_step | escape }}"
+  data-btn-edit-unit="{{ section.settings.btn_edit_unit | escape }}"
+  data-btn-remove-unit="{{ section.settings.btn_remove_unit | escape }}"
+  data-btn-add-to-cart="{{ section.settings.btn_add_to_cart | escape }}"
+  data-btn-restart="{{ section.settings.btn_restart | escape }}"
+  data-title-step-unit-config-template="{{ section.settings.title_step_unit_config_template | escape }}"
+  data-title-step-unit-details-template="{{ section.settings.title_step_unit_details_template | escape }}"
+  data-title-step-summary="{{ section.settings.title_step_summary | escape }}"
+  data-title-step-results="{{ section.settings.title_step_results | escape }}"
+  data-text-products-for-cart="{{ section.settings.text_products_for_cart | escape }}"
+  data-text-recommended-tools="{{ section.settings.text_recommended_tools | escape }}"
+  data-text-single-instance-items-title="{{ section.settings.text_single_instance_items_title | escape }}"
+  data-text-no-products-configured="{{ section.settings.text_no_products_configured | escape }}"
+  data-text-no-tools-recommended="{{ section.settings.text_no_tools_recommended | escape }}"
+  data-text-confirm-delete-unit="{{ section.settings.text_confirm_delete_unit | escape }}"
+  data-error-csv-load="{{ section.settings.error_csv_load | escape }}"
+  data-error-no-variant-map="{{ section.settings.error_no_variant_map | escape }}"
+  data-error-validation-prefix="{{ section.settings.error_validation_prefix | escape }}"
+  data-error-select-option="{{ section.settings.error_select_option | escape }}"
+  data-summary-unit-template="{{ section.settings.summary_unit_template | newline_to_br }}"
+  data-error-csv-filename-invalid="{{ section.settings.error_csv_filename_invalid | escape }}"
+  data-error-csv-data-insufficient="{{ section.settings.error_csv_data_insufficient | escape }}"
+  data-error-map-script-tag-suffix="{{ section.settings.error_map_script_tag_suffix | escape }}"
+  data-error-map-json-parsing-suffix-template="{{ section.settings.error_map_json_parsing_suffix_template | escape }}"
+  data-error-csv-missing-cols-bat-dist="{{ section.settings.error_csv_missing_cols_bat_dist | escape }}"
+  data-error-csv-missing-col-revetement="{{ section.settings.error_csv_missing_col_revetement | escape }}"
+  data-error-csv-missing-col-superficie="{{ section.settings.error_csv_missing_col_superficie | escape }}"
+  data-error-min-one-unit-for-results="{{ section.settings.error_min_one_unit_for_results | escape }}"
+>
+  <div id="kit-builder-error-{{ section.id }}" class="kit-builder-error-message" style="display:none;"></div>
+
+  <div id="kit-builder-step-unit-type-{{ section.id }}" class="kit-builder-step" style="display:none;">
+    <h2 id="kit-builder-step-unit-type-title-{{ section.id }}"></h2>
+    <div class="kit-builder-field">
+      <div class="kit-builder-label-image-wrapper">
+        <label for="unit-type-{{ section.id }}">{{ section.settings.label_unit_type }}</label>
+        {% if section.settings.image_label_unit_type != blank %}
+          <img
+            src="{{ section.settings.image_label_unit_type | image_url: width: section.settings.label_image_max_width }}"
+            loading="lazy"
+            alt="{{ section.settings.label_unit_type | escape }} {{ section.settings.image_alt_text_suffix | escape }}"
+            class="kit-builder-label-image"
+          >
+        {% endif %}
+      </div>
+      {% if section.settings.subtext_label_unit_type != blank %}
+        <div class="kit-builder-subtext">{{ section.settings.subtext_label_unit_type }}</div>
+      {% endif %}
+      <select id="unit-type-{{ section.id }}">
+        <option value="">{{ section.settings.placeholder_text }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_sous_sol }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_rdj }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_rdc }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_etage1 }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_etage2 }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison_mezzanine }}</option>
+        <option value="Maison">{{ section.settings.label_unit_type_maison }}</option>
+        <option value="Garage">{{ section.settings.label_unit_type_garage }}</option>
+      </select>
+    </div>
+    <div class="kit-builder-navigation">
+      <button
+        type="button"
+        id="kit-builder-next-to-details-{{ section.id }}"
+        class="kit-builder-button kit-builder-next-btn"
+      >
+        {{ section.settings.btn_next_step }}
+      </button>
+    </div>
+  </div>
+
+  <div id="kit-builder-step-unit-details-{{ section.id }}" class="kit-builder-step" style="display:none;">
+    <h2 id="kit-builder-step-unit-details-title-{{ section.id }}"></h2>
+    <div class="kit-builder-field">
+      <div class="kit-builder-label-image-wrapper">
+        <label for="unit-distance-{{ section.id }}">{{ section.settings.label_distance }}</label>
+        {% if section.settings.image_label_distance != blank %}
+          <img
+            src="{{ section.settings.image_label_distance | image_url: width: section.settings.label_image_max_width }}"
+            loading="lazy"
+            alt="{{ section.settings.label_distance | escape }} {{ section.settings.image_alt_text_suffix | escape }}"
+            class="kit-builder-label-image"
+          >
+        {% endif %}
+      </div>
+      {% if section.settings.subtext_label_distance != blank %}
+        <div class="kit-builder-subtext">{{ section.settings.subtext_label_distance }}</div>
+      {% endif %}
+      <select id="unit-distance-{{ section.id }}">
+        <option value="">{{ section.settings.placeholder_text }}</option>
+      </select>
+    </div>
+    <div class="kit-builder-field">
+      <div class="kit-builder-label-image-wrapper">
+        <label for="unit-revetement-{{ section.id }}">{{ section.settings.label_revetement }}</label>
+        {% if section.settings.image_label_revetement != blank %}
+          <img
+            src="{{ section.settings.image_label_revetement | image_url: width: section.settings.label_image_max_width }}"
+            loading="lazy"
+            alt="{{ section.settings.label_revetement | escape }} {{ section.settings.image_alt_text_suffix | escape }}"
+            class="kit-builder-label-image"
+          >
+        {% endif %}
+      </div>
+      {% if section.settings.subtext_label_revetement != blank %}
+        <div class="kit-builder-subtext">{{ section.settings.subtext_label_revetement }}</div>
+      {% endif %}
+      <select id="unit-revetement-{{ section.id }}">
+        <option value="">{{ section.settings.placeholder_text }}</option>
+      </select>
+    </div>
+    <div class="kit-builder-field">
+      <div class="kit-builder-label-image-wrapper">
+        <label for="unit-superficie-{{ section.id }}">{{ section.settings.label_superficie }}</label>
+        {% if section.settings.image_label_superficie != blank %}
+          <img
+            src="{{ section.settings.image_label_superficie | image_url: width: section.settings.label_image_max_width }}"
+            loading="lazy"
+            alt="{{ section.settings.label_superficie | escape }} {{ section.settings.image_alt_text_suffix | escape }}"
+            class="kit-builder-label-image"
+          >
+        {% endif %}
+      </div>
+      {% if section.settings.subtext_label_superficie != blank %}
+        <div class="kit-builder-subtext">{{ section.settings.subtext_label_superficie }}</div>
+      {% endif %}
+      <select id="unit-superficie-{{ section.id }}">
+        <option value="">{{ section.settings.placeholder_text }}</option>
+      </select>
+    </div>
+    <div class="kit-builder-navigation">
+      <button
+        type="button"
+        id="kit-builder-prev-to-type-{{ section.id }}"
+        class="kit-builder-button kit-builder-prev-btn"
+      >
+        {{ section.settings.btn_prev_step }}
+      </button>
+      <button type="button" id="kit-builder-save-unit-{{ section.id }}" class="kit-builder-button kit-builder-save-btn">
+        {{ section.settings.btn_save_unit }}
+      </button>
+    </div>
+  </div>
+
+  <div id="kit-builder-step-summary-{{ section.id }}" class="kit-builder-step" style="display:none;">
+    <h2 id="kit-builder-step-summary-title-{{ section.id }}">{{ section.settings.title_step_summary }}</h2>
+    <div id="kit-builder-units-summary-list-{{ section.id }}"></div>
+    <div class="kit-builder-question-wrapper">
+      <div class="kit-builder-label-image-wrapper">
+        <p id="kit-builder-add-another-unit-q-{{ section.id }}">{{ section.settings.label_add_another_unit_q }}</p>
+        {% if section.settings.image_label_add_another_unit_q != blank %}
+          <img
+            src="{{ section.settings.image_label_add_another_unit_q | image_url: width: section.settings.label_image_max_width }}"
+            loading="lazy"
+            alt="{{ section.settings.label_add_another_unit_q | escape }} {{ section.settings.image_alt_text_suffix | escape }}"
+            class="kit-builder-label-image"
+          >
+        {% endif %}
+      </div>
+      {% if section.settings.subtext_label_add_another_unit_q != blank %}
+        <div class="kit-builder-subtext">{{ section.settings.subtext_label_add_another_unit_q }}</div>
+      {% endif %}
+    </div>
+    <div class="kit-builder-navigation">
+      <button
+        type="button"
+        id="kit-builder-add-another-yes-{{ section.id }}"
+        class="kit-builder-button kit-builder-yes-btn"
+      >
+        {{ section.settings.btn_yes }}
+      </button>
+      <button
+        type="button"
+        id="kit-builder-add-another-no-{{ section.id }}"
+        class="kit-builder-button kit-builder-no-btn"
+      >
+        {{ section.settings.btn_no_finalize }}
+      </button>
+    </div>
+  </div>
+
+  <div id="kit-builder-step-results-{{ section.id }}" class="kit-builder-step" style="display:none;">
+    <h2 id="kit-builder-step-results-title-{{ section.id }}">{{ section.settings.title_step_results }}</h2>
+    <div id="kit-builder-results-content-{{ section.id }}" class="kit-builder-results-area"></div>
+    <div class="kit-builder-navigation">
+      <a
+        href="#"
+        id="kit-builder-add-to-cart-link-{{ section.id }}"
+        class="kit-builder-button kit-builder-add-to-cart-btn"
+        target="_blank"
+        style="display:none;"
+      >
+        {{- section.settings.btn_add_to_cart -}}
+      </a>
+      <button
+        type="button"
+        id="kit-builder-restart-{{ section.id }}"
+        class="kit-builder-button kit-builder-restart-btn"
+        style="display: none"
+      >
+        {{ section.settings.btn_restart }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script id="kit-builder-sku-variant-map-{{ section.id }}" type="application/json">
+  {
+    {%- assign products_for_map = collections[section.settings.collection_handle].products -%}
+    {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
+      {%- assign products_for_map = collections['all'].products -%}
+    {%- endif -%}
+
+    {%- assign first_item = true -%}
+    {%- for product in products_for_map -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.sku != blank -%}
+          {%- unless first_item -%},{%- endunless -%}
+          "{{ variant.sku | escape }}": {
+            "variantId": {{ variant.id }},
+            "title": "{{ product.title | escape }}",
+            "productUrl": "{{ product.url | within: collection | default: product.url }}",
+            {%- assign img_url = '' -%}
+            {%- if variant.image -%}
+              {%- assign img_url = variant.image | image_url: width: section.settings.results_image_width -%}
+            {%- elsif product.featured_image -%}
+              {%- assign img_url = product.featured_image | image_url: width: section.settings.results_image_width -%}
+            {%- endif -%}
+            "imageUrl": "{{ img_url | escape }}"
+          }
+          {%- assign first_item = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  }
+</script>
+
+<div
+  id="sku-debug-metafields-{{ section.id }}"
+  class="kit-builder-debug"
+  style="margin-top: 2rem; font-family: monospace; font-size: 0.9rem; display: none;"
+></div>
+<div
+  id="sku-debug-collection-{{ section.id }}"
+  class="kit-builder-debug"
+  style="margin-top: 2rem; font-family: monospace; font-size: 0.9rem; display: none;"
+></div>
+
+<script src="{{ 'csv-kit-builder.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Iterative Kit Builder",
+  "tag": "section",
+  "class": "shopify-section-iterative-kit-builder",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Data Source"
+    },
+    {
+      "type": "text",
+      "id": "csv_filename",
+      "label": "CSV Filename (in Assets)",
+      "default": "kit_builder_data.csv",
+      "info": "Upload this CSV to Shopify Files (Content > Files)."
+    },
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection for SKU Mapping",
+      "default": "all",
+      "info": "Handle of the collection containing products for SKU-to-Variant ID mapping. Defaults to 'all' if not found or empty."
+    },
+    {
+      "type": "text",
+      "id": "skus_single_instance_in_cart",
+      "label": "Single Instance SKUs",
+      "info": "Comma-separated list of SKUs to add only once to the cart, with quantity from their first occurrence."
+    },
+    {
+      "type": "header",
+      "content": "Text Labels & Content"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Dropdown Placeholder",
+      "default": "-- Select an Option --"
+    },
+    {
+      "type": "textarea",
+      "id": "summary_unit_template",
+      "label": "Unit Summary Template",
+      "default": "Unit #{unit_number}:\n{type} - {distance}\n{revetement}, {superficie}",
+      "info": "Variables: {unit_number}, {type}, {distance}, {revetement}, {superficie}"
+    },
+    {
+      "type": "text",
+      "id": "title_step_unit_config_template",
+      "label": "Unit Config Step Title Template",
+      "default": "Configure Unit #{unit_number} - Type",
+      "info": "Use {unit_number} for the current unit number."
+    },
+    {
+      "type": "text",
+      "id": "title_step_unit_details_template",
+      "label": "Unit Details Step Title Template",
+      "default": "Configure Unit #{unit_number} - {unit_type} Details",
+      "info": "Use {unit_number} and {unit_type}."
+    },
+    {
+      "type": "text",
+      "id": "title_step_summary",
+      "label": "Summary Step Title",
+      "default": "Configuration Summary"
+    },
+    {
+      "type": "text",
+      "id": "title_step_results",
+      "label": "Results Step Title",
+      "default": "Your Custom Kit"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type",
+      "label": "Label: Unit Type",
+      "default": "Select Unit Type:"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_label_unit_type",
+      "label": "Image for 'Unit Type' Label"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_label_unit_type",
+      "label": "Explanatory Text for 'Unit Type'"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison",
+      "label": "Label: Unit Type 'Maison (Generic)'",
+      "default": "Maison (Autre)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_sous_sol",
+      "label": "Label: Unit Type 'Sous-Sol'",
+      "default": "Maison (Sous-Sol)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_rdj",
+      "label": "Label: Unit Type 'Rez-de-Jardins'",
+      "default": "Maison (Rez-de-Jardins)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_rdc",
+      "label": "Label: Unit Type 'Rez-de-Chaussée'",
+      "default": "Maison (Rez-de-Chaussée)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_etage1",
+      "label": "Label: Unit Type 'Premier Étage'",
+      "default": "Maison (Premier Étage)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_etage2",
+      "label": "Label: Unit Type 'Deuxième Étage'",
+      "default": "Maison (Deuxième Étage)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_maison_mezzanine",
+      "label": "Label: Unit Type 'Mezzanine'",
+      "default": "Maison (Mezzanine)"
+    },
+    {
+      "type": "text",
+      "id": "label_unit_type_garage",
+      "label": "Label: Unit Type 'Garage'",
+      "default": "Garage"
+    },
+    {
+      "type": "text",
+      "id": "label_distance",
+      "label": "Label: Distance",
+      "default": "Distance:"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_label_distance",
+      "label": "Image for 'Distance' Label"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_label_distance",
+      "label": "Explanatory Text for 'Distance'"
+    },
+    {
+      "type": "text",
+      "id": "label_revetement",
+      "label": "Label: Revêtement",
+      "default": "Revêtement:"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_label_revetement",
+      "label": "Image for 'Revêtement' Label"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_label_revetement",
+      "label": "Explanatory Text for 'Revêtement'"
+    },
+    {
+      "type": "text",
+      "id": "label_superficie",
+      "label": "Label: Superficie",
+      "default": "Superficie:"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_label_superficie",
+      "label": "Image for 'Superficie' Label"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_label_superficie",
+      "label": "Explanatory Text for 'Superficie'"
+    },
+    {
+      "type": "text",
+      "id": "label_add_another_unit_q",
+      "label": "Question: Add Another Unit?",
+      "default": "Voulez-vous ajouter une autre unité (étage/maison/garage) ?"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_label_add_another_unit_q",
+      "label": "Image for 'Add Another Unit' Question"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext_label_add_another_unit_q",
+      "label": "Explanatory Text for 'Add Another Unit' Question"
+    },
+    {
+      "type": "text",
+      "id": "image_alt_text_suffix",
+      "label": "Image Alt Text Suffix",
+      "default": "illustration",
+      "info": "Suffix added to alt text for descriptive images next to labels, e.g., 'Label Text [illustration]'"
+    },
+    {
+      "type": "text",
+      "id": "btn_yes",
+      "label": "Button: Yes",
+      "default": "Oui"
+    },
+    {
+      "type": "text",
+      "id": "btn_no_finalize",
+      "label": "Button: No / Finalize",
+      "default": "Non, voir le résumé"
+    },
+    {
+      "type": "text",
+      "id": "btn_save_unit",
+      "label": "Button: Save Unit / To Summary",
+      "default": "Save Unit & View Summary"
+    },
+    {
+      "type": "text",
+      "id": "btn_next_step",
+      "label": "Button: Next Step",
+      "default": "Next"
+    },
+    {
+      "type": "text",
+      "id": "btn_prev_step",
+      "label": "Button: Previous Step",
+      "default": "Previous"
+    },
+    {
+      "type": "text",
+      "id": "btn_edit_unit",
+      "label": "Button: Edit Unit",
+      "default": "Modifier"
+    },
+    {
+      "type": "text",
+      "id": "btn_remove_unit",
+      "label": "Button: Remove Unit",
+      "default": "Supprimer"
+    },
+    {
+      "type": "text",
+      "id": "btn_add_to_cart",
+      "label": "Button: Add to Cart",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "btn_restart",
+      "label": "Button: Restart",
+      "default": "Recommencer"
+    },
+    {
+      "type": "text",
+      "id": "text_products_for_cart",
+      "label": "Text: Products for Cart Title",
+      "default": "Products for Your Cart"
+    },
+    {
+      "type": "text",
+      "id": "text_recommended_tools",
+      "label": "Text: Recommended Tools Title",
+      "default": "Recommended Tools"
+    },
+    {
+      "type": "text",
+      "id": "text_single_instance_items_title",
+      "label": "Title for Single Instance Items Section",
+      "default": "Common Kit Components"
+    },
+    {
+      "type": "text",
+      "id": "text_no_products_configured",
+      "label": "Text: No Products Configured (General)",
+      "default": "No products were configured based on your selections."
+    },
+    {
+      "type": "text",
+      "id": "text_no_tools_recommended",
+      "label": "Text: No Tools Recommended (General)",
+      "default": "No additional tools are recommended for this configuration."
+    },
+    {
+      "type": "text",
+      "id": "error_csv_load",
+      "label": "Error: CSV Load Failure Prefix",
+      "default": "Error loading configuration data. Please try again later or contact support. Details: "
+    },
+    {
+      "type": "text",
+      "id": "error_csv_filename_invalid",
+      "label": "Error: CSV Filename Invalid",
+      "default": "CSV filename is not configured or invalid."
+    },
+    {
+      "type": "text",
+      "id": "error_csv_data_insufficient",
+      "label": "Error: CSV Data Insufficient",
+      "default": "CSV data insufficient. Requires at least one header row and one data row."
+    },
+    {
+      "type": "text",
+      "id": "error_no_variant_map",
+      "label": "Error: SKU to Variant Map Load Failure Prefix",
+      "default": "Error loading product variant information. Please ensure the specified collection is valid and products have SKUs."
+    },
+    {
+      "type": "text",
+      "id": "error_map_script_tag_suffix",
+      "label": "Error: Map Script Tag Not Found Suffix",
+      "default": " (Map script tag not found or empty)"
+    },
+    {
+      "type": "text",
+      "id": "error_map_json_parsing_suffix_template",
+      "label": "Error: Map JSON Parsing Error Suffix Template",
+      "default": " (JSON parsing error: {errorMessage})"
+    },
+    {
+      "type": "text",
+      "id": "error_validation_prefix",
+      "label": "Error: Validation Prefix",
+      "default": "Please correct the following: "
+    },
+    {
+      "type": "text",
+      "id": "error_select_option",
+      "label": "Error: Select an Option",
+      "default": "Please select an option for {fieldName}."
+    },
+    {
+      "type": "text",
+      "id": "text_confirm_delete_unit",
+      "label": "Confirmation: Delete Unit",
+      "default": "Are you sure you want to remove this unit?"
+    },
+    {
+      "type": "text",
+      "id": "error_csv_missing_cols_bat_dist",
+      "label": "Error: CSV missing 'batiment' or 'distance'",
+      "default": "CSV is missing required columns (batiment, distance)."
+    },
+    {
+      "type": "text",
+      "id": "error_csv_missing_col_revetement",
+      "label": "Error: CSV missing 'revetement'",
+      "default": "CSV is missing required column (revetement)."
+    },
+    {
+      "type": "text",
+      "id": "error_csv_missing_col_superficie",
+      "label": "Error: CSV missing 'superficie'",
+      "default": "CSV is missing required column (superficie)."
+    },
+    {
+      "type": "text",
+      "id": "error_min_one_unit_for_results",
+      "label": "Error: At least one unit required for results",
+      "default": "Please configure at least one unit before viewing results."
+    },
+    {
+      "type": "header",
+      "content": "Appearance Settings"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+      "info": "Enter a standard CSS font-family string."
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 600
+    },
+    {
+      "type": "color",
+      "id": "container_bg_color",
+      "label": "Container Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "container_text_color",
+      "label": "Container General Text Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "container_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Container Border Radius",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "container_shadow",
+      "label": "Container Box Shadow",
+      "default": "0 4px 12px rgba(0, 0, 0, 0.4)",
+      "info": "e.g., 0 2px 4px rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "color",
+      "id": "step_bg_color",
+      "label": "Step Background Color",
+      "default": "#242424"
+    },
+    {
+      "type": "range",
+      "id": "step_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Step Border Radius",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "step_title_color",
+      "label": "Step Title Color",
+      "default": "#00aaff"
+    },
+    {
+      "type": "range",
+      "id": "step_title_font_size",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Step Title Font Size",
+      "default": 1.5
+    },
+    {
+      "type": "color",
+      "id": "step_text_color",
+      "label": "Step Text Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Field Label Text Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "min": 0.8,
+      "max": 2,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Field Label Font Size",
+      "default": 1.4
+    },
+    {
+      "type": "range",
+      "id": "border_field_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Field border radius",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "border_field_color",
+      "label": "Border field color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "border_field_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border field width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_field_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Field border padding",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "border_field_style",
+      "label": "Border Style",
+      "default": "solid",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        },
+        {
+          "value": "double",
+          "label": "Double"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "label_font_weight",
+      "label": "Field Label Font Weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "label_image_max_width",
+      "min": 300,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Label Image Max Width",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "label_image_spacing",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Spacing Around Label Image",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "subtext_text_color",
+      "label": "Subtext Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "min": 0.7,
+      "max": 1.2,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Subtext Font Size",
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "summary_item_title_font_size",
+      "min": 0.7,
+      "max": 3.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Result text link font size",
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "summary_item_text_font_size",
+      "min": 0.7,
+      "max": 3.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Unit summary text font size",
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "section_title_text_font_size",
+      "min": 0.7,
+      "max": 3.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Section title font size (ex: Produits recommande, common kit items...",
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "subtext_margin_top",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtext Margin Top",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "select_bg_color",
+      "label": "Select Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "select_text_color",
+      "label": "Select Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "select_border_color",
+      "label": "Select Border Color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "select_border_radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Select Border Radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "select_font_size",
+      "min": 0.8,
+      "max": 1.5,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Select Font Size",
+      "default": 1.2
+    },
+    {
+      "type": "color",
+      "id": "select_arrow_color",
+      "label": "Select Arrow Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "select_focus_border_color",
+      "label": "Select Focus Border Color",
+      "default": "#007bff"
+    },
+    {
+      "type": "text",
+      "id": "select_focus_shadow",
+      "label": "Select Focus Shadow",
+      "default": "0 0 0 0.2rem rgba(0, 123, 255, 0.35)",
+      "info": "e.g., 0 0 0 2px #color"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 0.8,
+      "max": 1.5,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Button Font Size",
+      "default": 1.2
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "label": "Button Padding (Vertical)",
+      "min": 0.2,
+      "max": 1.5,
+      "step": 0.1,
+      "unit": "rem",
+      "default": 0.9
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "label": "Button Padding (Horizontal)",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "unit": "rem",
+      "default": 2
+    },
+    { "type": "paragraph", "content": "Primary Buttons (Next, Save)" },
+    { "type": "color", "id": "button_primary_bg_color", "label": "BG Color", "default": "#007bff" },
+    { "type": "color", "id": "button_primary_text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_primary_border_color", "label": "Border Color", "default": "#007bff" },
+    { "type": "color", "id": "button_primary_hover_bg_color", "label": "Hover BG Color", "default": "#0056b3" },
+    { "type": "color", "id": "button_primary_hover_text_color", "label": "Hover Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_primary_hover_border_color", "label": "Hover Border Color", "default": "#0056b3" },
+    { "type": "paragraph", "content": "Secondary Buttons (Previous, Yes)" },
+    { "type": "color", "id": "button_secondary_bg_color", "label": "BG Color", "default": "#495057" },
+    { "type": "color", "id": "button_secondary_text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_secondary_border_color", "label": "Border Color", "default": "#495057" },
+    { "type": "color", "id": "button_secondary_hover_bg_color", "label": "Hover BG Color", "default": "#3a3f44" },
+    { "type": "color", "id": "button_secondary_hover_text_color", "label": "Hover Text Color", "default": "#ffffff" },
+    {
+      "type": "color",
+      "id": "button_secondary_hover_border_color",
+      "label": "Hover Border Color",
+      "default": "#343a40"
+    },
+    { "type": "paragraph", "content": "Danger/Action Buttons (No/Finalize, Restart, Add to Cart, Edit, Remove)" },
+    { "type": "color", "id": "button_danger_bg_color", "label": "BG Color", "default": "#c82333" },
+    { "type": "color", "id": "button_danger_text_color", "label": "Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_danger_border_color", "label": "Border Color", "default": "#c82333" },
+    { "type": "color", "id": "button_danger_hover_bg_color", "label": "Hover BG Color", "default": "#a81d2a" },
+    { "type": "color", "id": "button_danger_hover_text_color", "label": "Hover Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "button_danger_hover_border_color", "label": "Hover Border Color", "default": "#9e1b27" },
+    {
+      "type": "header",
+      "content": "Results Area Appearance"
+    },
+    {
+      "type": "color",
+      "id": "results_area_bg_color",
+      "label": "Results Area Background",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "color",
+      "id": "results_area_text_color",
+      "label": "Results Area Text Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "results_area_border_radius",
+      "label": "Results Area Border Radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "results_title_color",
+      "label": "Results Section/Unit Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "results_item_bg_color",
+      "label": "Results Item Background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "results_item_text_color",
+      "label": "Results Item Text Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "results_item_border_color",
+      "label": "Results Item Border Color",
+      "default": "#444444"
+    },
+    {
+      "type": "range",
+      "id": "results_item_border_radius",
+      "label": "Results Item Border Radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "results_image_width",
+      "label": "Results Item Image Width",
+      "min": 30,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "results_image_height",
+      "label": "Results Item Image Height",
+      "min": 30,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "results_image_border_radius",
+      "label": "Results Item Image Border Radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "results_link_color",
+      "label": "Results Link Color",
+      "default": "#00aaff"
+    },
+    {
+      "type": "color",
+      "id": "results_link_hover_color",
+      "label": "Results Link Hover Color",
+      "default": "#0088cc"
+    },
+    {
+      "type": "header",
+      "content": "Other Appearance"
+    },
+    {
+      "type": "color",
+      "id": "error_bg_color",
+      "label": "Error Message Background",
+      "default": "#4d1218"
+    },
+    {
+      "type": "color",
+      "id": "error_text_color",
+      "label": "Error Message Text Color",
+      "default": "#f5c6cb"
+    },
+    {
+      "type": "color",
+      "id": "error_border_color",
+      "label": "Error Message Border Color",
+      "default": "#721c24"
+    },
+    {
+      "type": "range",
+      "id": "error_border_radius",
+      "label": "Error Message Border Radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "summary_item_bg_color",
+      "label": "Summary Item Background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "summary_item_text_color",
+      "label": "Summary Item Text Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "summary_item_border_color",
+      "label": "Summary Item Border Color",
+      "default": "#444444"
+    },
+    {
+      "type": "range",
+      "id": "summary_item_border_radius",
+      "label": "Summary Item Border Radius",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Iterative Kit Builder"
+    }
+  ]
+}
+{% endschema %}
