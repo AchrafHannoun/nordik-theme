@@ -101,32 +101,38 @@
 
   <script id="ensemble-quiz-sku-variant-map-{{ section.id }}" type="application/json">
     {
-      {%- assign products_for_map = collections[section.settings.collection_handle].products -%}
-      {%- if products_for_map.size == 0 and section.settings.collection_handle != 'all' -%}
-        {%- assign products_for_map = collections['all'].products -%}
+      {%- assign selected_collection = collections[section.settings.collection_handle] -%}
+      {%- if selected_collection == blank and section.settings.collection_handle != 'all' -%}
+        {%- assign selected_collection = collections['all'] -%}
+      {%- endif -%}
+
+      {%- if selected_collection and selected_collection.products_count == 0 and section.settings.collection_handle != 'all' -%}
+        {%- assign selected_collection = collections['all'] -%}
       {%- endif -%}
 
       {%- assign first_item = true -%}
-      {%- for product in products_for_map -%}
-        {%- for variant in product.variants -%}
-          {%- if variant.sku != blank -%}
-            {%- unless first_item -%},{%- endunless -%}
-            "{{ variant.sku | escape }}": {
-              "variantId": {{ variant.id }},
-              "title": "{{ product.title | escape }}",
-              "productUrl": "{{ product.url | within: collection | default: product.url }}",
-              {%- assign img_url = '' -%}
-              {%- if variant.image -%}
-                {%- assign img_url = variant.image | image_url: width: 240 -%}
-              {%- elsif product.featured_image -%}
-                {%- assign img_url = product.featured_image | image_url: width: 240 -%}
-              {%- endif -%}
-              "imageUrl": "{{ img_url | escape }}"
-            }
-            {%- assign first_item = false -%}
-          {%- endif -%}
+      {%- if selected_collection -%}
+        {%- for product in selected_collection.products -%}
+          {%- for variant in product.variants -%}
+            {%- if variant.sku != blank -%}
+              {%- unless first_item -%},{%- endunless -%}
+              "{{ variant.sku | escape }}": {
+                "variantId": {{ variant.id }},
+                "title": "{{ product.title | escape }}",
+                "productUrl": "{{ product.url | within: selected_collection | default: product.url }}",
+                {%- assign img_url = '' -%}
+                {%- if variant.image -%}
+                  {%- assign img_url = variant.image | image_url: width: 240 -%}
+                {%- elsif product.featured_image -%}
+                  {%- assign img_url = product.featured_image | image_url: width: 240 -%}
+                {%- endif -%}
+                "imageUrl": "{{ img_url | escape }}"
+              }
+              {%- assign first_item = false -%}
+            {%- endif -%}
+          {%- endfor -%}
         {%- endfor -%}
-      {%- endfor -%}
+      {%- endif -%}
     }
   </script>
 </div>
@@ -405,7 +411,7 @@
       "type": "textarea",
       "id": "options_insulation",
       "label": "Insulation options",
-      "default": "Treillis metallique|Treillis metallique\nPolystyrene avec systeme de retenue (style Isorad)|Polystyrene avec systeme de retenue (style Isorad)"
+      "default": "Treillis métallique|Treillis métallique\nPolystyrène avec système de retenue (style Isorad)|Polystyrène avec système de retenue (style Isorad)"
     },
     {
       "type": "textarea",

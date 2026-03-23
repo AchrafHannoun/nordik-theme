@@ -301,6 +301,82 @@ function initializeEnsembleQuiz(container) {
     }
   }
 
+  async function augmentSkuMapFromCollectionJson() {
+    function resolveProductImageUrl(product) {
+      const images = Array.isArray(product && product.images) ? product.images : [];
+      if (images.length) {
+        const first = images[0];
+        if (typeof first === "string") return first;
+        if (first && typeof first === "object") {
+          if (typeof first.src === "string") return first.src;
+          if (typeof first.url === "string") return first.url;
+        }
+      }
+
+      if (product && typeof product.image === "string") return product.image;
+      if (product && product.image && typeof product.image === "object") {
+        if (typeof product.image.src === "string") return product.image.src;
+        if (typeof product.image.url === "string") return product.image.url;
+      }
+
+      return "";
+    }
+
+    const handle = normalize(container.dataset.collectionHandle || "all");
+    const map = { ...state.skuMap };
+    const baseUrl =
+      handle === "all"
+        ? "/products.json"
+        : `/collections/${encodeURIComponent(handle)}/products.json`;
+    const url = `${baseUrl}?limit=250&page=1`;
+
+    let response;
+    try {
+      response = await fetch(url, {
+        headers: { Accept: "application/json" },
+      });
+    } catch (error) {
+      state.skuMap = map;
+      return;
+    }
+
+    if (!response.ok) {
+      state.skuMap = map;
+      return;
+    }
+
+    let payload;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      state.skuMap = map;
+      return;
+    }
+
+    const products = Array.isArray(payload && payload.products) ? payload.products : [];
+    products.forEach((product) => {
+      if (!product || !Array.isArray(product.variants)) return;
+
+      const title = normalize(product.title);
+      const productUrl = product && product.handle ? `/products/${product.handle}` : "";
+      const imageUrl = resolveProductImageUrl(product);
+
+      product.variants.forEach((variant) => {
+        const sku = normalize(variant && variant.sku);
+        if (!sku) return;
+
+        map[sku] = {
+          variantId: variant.id || null,
+          title: title || sku,
+          productUrl,
+          imageUrl,
+        };
+      });
+    });
+
+    state.skuMap = map;
+  }
+
   function getUniqueOptionsFromColumn(columnIndex, includeNa = false) {
     const options = [];
     const seen = new Set();
@@ -366,67 +442,294 @@ function initializeEnsembleQuiz(container) {
     return null;
   }
 
+  function isNaValue(value) {
+    return normalizeForComparison(value) === "n/a";
+  }
+
+  function isSameValue(a, b) {
+    return normalizeForComparison(a) === normalizeForComparison(b);
+  }
+
+  function matchExactIfAnswered(row, colIndex, answerValue) {
+    if (!normalize(answerValue)) return true;
+    return isSameValue(row[colIndex], answerValue);
+  }
+
+  function rowMatchesAnswerConstraints(row, answers) {
+    if (!matchExactIfAnswered(row, CSV_COLS.BUILDING, answers.building)) return false;
+
+    if (normalize(answers.pipes)) {
+      if (!matchExactIfAnswered(row, CSV_COLS.PIPES, answers.pipes)) return false;
+
+      if (isNo(answers.pipes)) {
+        if (!isNaValue(row[CSV_COLS.CIRCUITS])) return false;
+        if (!matchExactIfAnswered(row, CSV_COLS.INSULATION, answers.insulation)) return false;
+        if (!matchExactIfAnswered(row, CSV_COLS.DIAMETER, answers.diameter)) return false;
+        if (!matchExactIfAnswered(row, CSV_COLS.SURFACE_9, answers.surface9)) return false;
+        if (!matchExactIfAnswered(row, CSV_COLS.SURFACE_12, answers.surface12)) return false;
+
+        if (normalize(answers.diameter)) {
+          if (isNineInch(answers.diameter) && !isNaValue(row[CSV_COLS.SURFACE_12])) return false;
+          if (!isNineInch(answers.diameter) && !isNaValue(row[CSV_COLS.SURFACE_9])) return false;
+        }
+      } else if (isYes(answers.pipes)) {
+        if (!isNaValue(row[CSV_COLS.INSULATION])) return false;
+        if (!isNaValue(row[CSV_COLS.DIAMETER])) return false;
+        if (!isNaValue(row[CSV_COLS.SURFACE_9])) return false;
+        if (!isNaValue(row[CSV_COLS.SURFACE_12])) return false;
+        if (!matchExactIfAnswered(row, CSV_COLS.CIRCUITS, answers.circuits)) return false;
+      }
+    }
+
+    if (!matchExactIfAnswered(row, CSV_COLS.ENERGY, answers.energy)) return false;
+
+    if (normalize(answers.knowBoiler)) {
+      if (!matchExactIfAnswered(row, CSV_COLS.KNOW_BOILER, answers.knowBoiler)) return false;
+
+      if (isYes(answers.knowBoiler)) {
+        if (!isNaValue(row[CSV_COLS.BTU_240])) return false;
+        if (!isNaValue(row[CSV_COLS.BTU_600])) return false;
+        if (!isNaValue(row[CSV_COLS.BTU_GAZ_STANDARD])) return false;
+        if (!isNaValue(row[CSV_COLS.BTU_GAZ_COMBI])) return false;
+
+        const boilerColumn = determineBoilerColumn();
+        if (boilerColumn !== null && !matchExactIfAnswered(row, boilerColumn, answers.boilerModel)) {
+          return false;
+        }
+
+        if (boilerColumn !== null) {
+          const boilerColumns = [
+            CSV_COLS.BOILER_240,
+            CSV_COLS.BOILER_600,
+            CSV_COLS.BOILER_GAZ_STANDARD,
+            CSV_COLS.BOILER_GAZ_COMBI,
+          ];
+          for (const col of boilerColumns) {
+            if (col !== boilerColumn && !isNaValue(row[col])) {
+              return false;
+            }
+          }
+        }
+      } else if (isNo(answers.knowBoiler)) {
+        if (!isNaValue(row[CSV_COLS.BOILER_240])) return false;
+        if (!isNaValue(row[CSV_COLS.BOILER_600])) return false;
+        if (!isNaValue(row[CSV_COLS.BOILER_GAZ_STANDARD])) return false;
+        if (!isNaValue(row[CSV_COLS.BOILER_GAZ_COMBI])) return false;
+
+        const btuColumn = determineBtuColumn();
+        if (btuColumn !== null && !matchExactIfAnswered(row, btuColumn, answers.btuRange)) {
+          return false;
+        }
+
+        if (btuColumn !== null) {
+          const btuColumns = [
+            CSV_COLS.BTU_240,
+            CSV_COLS.BTU_600,
+            CSV_COLS.BTU_GAZ_STANDARD,
+            CSV_COLS.BTU_GAZ_COMBI,
+          ];
+          for (const col of btuColumns) {
+            if (col !== btuColumn && !isNaValue(row[col])) {
+              return false;
+            }
+          }
+        }
+      }
+    }
+
+    if (!matchExactIfAnswered(row, CSV_COLS.FITTING, answers.fitting)) return false;
+
+    return true;
+  }
+
+  function getStepContextAnswers(stepId) {
+    const contextAnswers = { ...state.answers };
+
+    if (stepId === STEP_IDS.BUILDING) {
+      return {};
+    }
+
+    if (stepId === STEP_IDS.PIPES) {
+      delete contextAnswers.pipes;
+      delete contextAnswers.insulation;
+      delete contextAnswers.diameter;
+      delete contextAnswers.surface9;
+      delete contextAnswers.surface12;
+      delete contextAnswers.circuits;
+      delete contextAnswers.energy;
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.INSULATION || stepId === STEP_IDS.CIRCUITS) {
+      delete contextAnswers.insulation;
+      delete contextAnswers.diameter;
+      delete contextAnswers.surface9;
+      delete contextAnswers.surface12;
+      delete contextAnswers.circuits;
+      delete contextAnswers.energy;
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.DIAMETER) {
+      delete contextAnswers.diameter;
+      delete contextAnswers.surface9;
+      delete contextAnswers.surface12;
+      delete contextAnswers.energy;
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.SURFACE_9 || stepId === STEP_IDS.SURFACE_12) {
+      delete contextAnswers.surface9;
+      delete contextAnswers.surface12;
+      delete contextAnswers.energy;
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.ENERGY) {
+      delete contextAnswers.energy;
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.KNOW_BOILER) {
+      delete contextAnswers.knowBoiler;
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.BOILER_MODEL || stepId === STEP_IDS.BTU_RANGE) {
+      delete contextAnswers.boilerModel;
+      delete contextAnswers.btuRange;
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    if (stepId === STEP_IDS.FITTING) {
+      delete contextAnswers.fitting;
+      return contextAnswers;
+    }
+
+    return contextAnswers;
+  }
+
+  function filterOptionsByCompatibility(stepId, options) {
+    const key = answerKeyForStep(stepId);
+    if (!key || !options.length) return options;
+
+    const contextAnswers = getStepContextAnswers(stepId);
+
+    return options.filter((option) => {
+      const draftAnswers = { ...contextAnswers, [key]: option.value };
+      return state.rows.some((row) => rowMatchesAnswerConstraints(row, draftAnswers));
+    });
+  }
+
   function getOptionsForStep(stepId) {
+    let options = [];
+
     switch (stepId) {
       case STEP_IDS.BUILDING:
-        return dedupeOptions(optionSource(settings.optionsBuilding, CSV_COLS.BUILDING));
+        options = dedupeOptions(optionSource(settings.optionsBuilding, CSV_COLS.BUILDING));
+        break;
       case STEP_IDS.PIPES:
-        return dedupeOptions(optionSource(settings.optionsPipes, CSV_COLS.PIPES));
+        options = dedupeOptions(optionSource(settings.optionsPipes, CSV_COLS.PIPES));
+        break;
       case STEP_IDS.INSULATION:
-        return dedupeOptions(optionSource(settings.optionsInsulation, CSV_COLS.INSULATION));
+        options = dedupeOptions(optionSource(settings.optionsInsulation, CSV_COLS.INSULATION));
+        break;
       case STEP_IDS.DIAMETER:
-        return dedupeOptions(optionSource(settings.optionsDiameter, CSV_COLS.DIAMETER));
+        options = dedupeOptions(optionSource(settings.optionsDiameter, CSV_COLS.DIAMETER));
+        break;
       case STEP_IDS.SURFACE_9:
-        return dedupeOptions(optionSource(settings.optionsSurface9, CSV_COLS.SURFACE_9));
+        options = dedupeOptions(optionSource(settings.optionsSurface9, CSV_COLS.SURFACE_9));
+        break;
       case STEP_IDS.SURFACE_12:
-        return dedupeOptions(optionSource(settings.optionsSurface12, CSV_COLS.SURFACE_12));
+        options = dedupeOptions(optionSource(settings.optionsSurface12, CSV_COLS.SURFACE_12));
+        break;
       case STEP_IDS.CIRCUITS: {
-        const options = dedupeOptions(optionSource(settings.optionsCircuits, CSV_COLS.CIRCUITS));
-        return options.sort((a, b) => Number(a.value) - Number(b.value));
+        const circuits = dedupeOptions(optionSource(settings.optionsCircuits, CSV_COLS.CIRCUITS));
+        options = circuits.sort((a, b) => Number(a.value) - Number(b.value));
+        break;
       }
       case STEP_IDS.ENERGY:
-        return dedupeOptions(optionSource(settings.optionsEnergy, CSV_COLS.ENERGY));
+        options = dedupeOptions(optionSource(settings.optionsEnergy, CSV_COLS.ENERGY));
+        break;
       case STEP_IDS.KNOW_BOILER:
-        return dedupeOptions(optionSource(settings.optionsKnowBoiler, CSV_COLS.KNOW_BOILER));
+        options = dedupeOptions(optionSource(settings.optionsKnowBoiler, CSV_COLS.KNOW_BOILER));
+        break;
       case STEP_IDS.BOILER_MODEL: {
         const energyKey = resolveEnergyKey(state.answers.energy);
         if (energyKey === ENERGY_KEYS.ELEC_240) {
-          return dedupeOptions(optionSource(settings.optionsBoiler240, CSV_COLS.BOILER_240));
+          options = dedupeOptions(optionSource(settings.optionsBoiler240, CSV_COLS.BOILER_240));
+          break;
         }
         if (energyKey === ENERGY_KEYS.ELEC_600) {
-          return dedupeOptions(optionSource(settings.optionsBoiler600, CSV_COLS.BOILER_600));
+          options = dedupeOptions(optionSource(settings.optionsBoiler600, CSV_COLS.BOILER_600));
+          break;
         }
         if (energyKey === ENERGY_KEYS.GAZ_STANDARD) {
-          return dedupeOptions(
+          options = dedupeOptions(
             optionSource(settings.optionsBoilerGazStandard, CSV_COLS.BOILER_GAZ_STANDARD)
           );
+          break;
         }
         if (energyKey === ENERGY_KEYS.GAZ_COMBI) {
-          return dedupeOptions(optionSource(settings.optionsBoilerGazCombi, CSV_COLS.BOILER_GAZ_COMBI));
+          options = dedupeOptions(optionSource(settings.optionsBoilerGazCombi, CSV_COLS.BOILER_GAZ_COMBI));
+          break;
         }
-        return [];
+        options = [];
+        break;
       }
       case STEP_IDS.BTU_RANGE: {
         const energyKey = resolveEnergyKey(state.answers.energy);
         if (energyKey === ENERGY_KEYS.ELEC_240) {
-          return dedupeOptions(optionSource(settings.optionsBtu240, CSV_COLS.BTU_240));
+          options = dedupeOptions(optionSource(settings.optionsBtu240, CSV_COLS.BTU_240));
+          break;
         }
         if (energyKey === ENERGY_KEYS.ELEC_600) {
-          return dedupeOptions(optionSource(settings.optionsBtu600, CSV_COLS.BTU_600));
+          options = dedupeOptions(optionSource(settings.optionsBtu600, CSV_COLS.BTU_600));
+          break;
         }
         if (energyKey === ENERGY_KEYS.GAZ_STANDARD) {
-          return dedupeOptions(optionSource(settings.optionsBtuGazStandard, CSV_COLS.BTU_GAZ_STANDARD));
+          options = dedupeOptions(optionSource(settings.optionsBtuGazStandard, CSV_COLS.BTU_GAZ_STANDARD));
+          break;
         }
         if (energyKey === ENERGY_KEYS.GAZ_COMBI) {
-          return dedupeOptions(optionSource(settings.optionsBtuGazCombi, CSV_COLS.BTU_GAZ_COMBI));
+          options = dedupeOptions(optionSource(settings.optionsBtuGazCombi, CSV_COLS.BTU_GAZ_COMBI));
+          break;
         }
-        return [];
+        options = [];
+        break;
       }
       case STEP_IDS.FITTING:
-        return dedupeOptions(optionSource(settings.optionsFitting, CSV_COLS.FITTING));
+        options = dedupeOptions(optionSource(settings.optionsFitting, CSV_COLS.FITTING));
+        break;
       default:
-        return [];
+        options = [];
     }
+
+    return filterOptionsByCompatibility(stepId, options);
   }
 
   function getFirstStepId() {
@@ -525,6 +828,10 @@ function initializeEnsembleQuiz(container) {
       delete state.answers.btuRange;
       delete state.answers.fitting;
     }
+  }
+
+  function clearDownstreamAnswersForBack(stepId) {
+    clearDownstreamAnswers(stepId);
   }
 
   function answerKeyForStep(stepId) {
@@ -629,6 +936,7 @@ function initializeEnsembleQuiz(container) {
       backButton.addEventListener("click", () => {
         if (!state.history.length) return;
         const previous = state.history.pop();
+        clearDownstreamAnswersForBack(previous);
         renderStep(previous);
       });
     }
@@ -680,7 +988,7 @@ function initializeEnsembleQuiz(container) {
 
   function rowsEqualWithNa(row, vector) {
     for (let i = 0; i < 18; i += 1) {
-      if (normalize(row[i]) !== normalize(vector[i])) {
+      if (normalizeForComparison(row[i]) !== normalizeForComparison(vector[i])) {
         return false;
       }
     }
@@ -844,15 +1152,31 @@ function initializeEnsembleQuiz(container) {
       ? products
           .map((product) => {
             const productTitle = product.title || product.sku;
+            const productUrl = normalize(product.productUrl);
+            const imageUrl = normalize(product.imageUrl);
+            const titleHtml = productUrl
+              ? `<a class="quiz-result-item__link" href="${productUrl}">${productTitle}</a>`
+              : productTitle;
+            const imageHtml = imageUrl
+              ? `<a class="quiz-result-item__thumb-link" href="${productUrl || '#'}" ${
+                  productUrl ? "" : 'aria-disabled="true" tabindex="-1"'
+                }><img class="quiz-result-item__thumb" src="${imageUrl}" alt="${productTitle}"></a>`
+              : `<div class="quiz-result-item__thumb-placeholder" aria-hidden="true"></div>`;
             const unresolvedBadge = product.variantId
               ? ""
               : `<span class="quiz-result-item__badge">${settings.unresolvedVariantText}</span>`;
 
             return `
               <li class="quiz-result-item">
+                ${imageHtml}
                 <div class="quiz-result-item__main">
-                  <p class="quiz-result-item__title">${productTitle}</p>
+                  <p class="quiz-result-item__title">${titleHtml}</p>
                   <p class="quiz-result-item__meta">SKU: ${product.sku}</p>
+                  ${
+                    productUrl
+                      ? `<p class="quiz-result-item__meta"><a class="quiz-result-item__link" href="${productUrl}">Voir le produit</a></p>`
+                      : ""
+                  }
                 </div>
                 <p class="quiz-result-item__qty">x${product.qty}</p>
                 ${unresolvedBadge}
@@ -946,6 +1270,7 @@ function initializeEnsembleQuiz(container) {
     try {
       await loadCsvData();
       loadSkuVariantMap();
+      await augmentSkuMapFromCollectionJson();
 
       const firstStep = getFirstStepId();
       state.history = [];
